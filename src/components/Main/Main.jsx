@@ -11,6 +11,7 @@
 import Promo from '../Promo/Promo';
 import "./Main.scss";
 import AboutProject from '../AboutProject/AboutProject'
+import Techs from '../Techs/Techs';
 
 function Main() {
 
@@ -20,6 +21,7 @@ function Main() {
     <div className="main">
     <Promo />
     <AboutProject />
+    <Techs />
     </div>
     {/* <Footer /> */}
     </>
