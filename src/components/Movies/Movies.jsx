@@ -11,10 +11,10 @@ import like from "../../images/like.svg";
 function Movies() {
 
   return (
-    <section className="movies">
+    <main className="movies">
       <SearchForm />
       <MoviesCardList className="movies-card__like" alt="кнопка: избранное" src={like}/>
-    </section>
+    </main>
   );
 }
 

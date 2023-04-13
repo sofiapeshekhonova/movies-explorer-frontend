@@ -1,25 +1,23 @@
 import { Routes, Route } from 'react-router-dom';
-// import Register from '../Register/Register';
-// import Login from '../Login/Login';
 import Main from '../Main/Main';
 import SavedMovies from '../SavedMovies/SavedMovies';
-// import Profile from '../Profile/Profile';
 import "./App.scss";
 import Movies from '../Movies/Movies';
+import Register from '../Register/Register';
+import Login from '../Login/Login';
 
 function App() {
-
   return (
     <div className="page">
         <Routes>
-          {/* <Route path="/signup" element={
+           <Route path="/signup" element={
             <Register />
             }>
           </Route>
           <Route path="/signin" element={
             <Login />
             }>
-          </Route> */}
+          </Route>
            <Route path="/" element={ <Main />} /> 
            <Route path="/movies" element={ <Movies />} />
             <Route path="/saved-movies" element={ <SavedMovies />} />
