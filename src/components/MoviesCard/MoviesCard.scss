@@ -20,13 +20,14 @@
   }
 }
 
-.movies-card__trailer-link {
-
+.movies-card__container :hover .movies-card__dislike {
+  display: block;
 }
 
 .movies-card__image {
   width: 100%;
   background-repeat: no-repeat;
+  cursor: pointer;
 }
 
 .movies-card__info {
@@ -47,9 +48,23 @@
   }
 }
 
+
 .movies-card__like {
-  width: 30px;
-  height: 30px;
+  width: 14px;
+  height: 12px;
+  padding: 0 8px;
+  cursor: pointer;
+}
+
+.movies-card__dislike {
+  width: 6.84px;
+  height: 6.72px;
+  display: none;
+  padding: 0 15px;
+  cursor: pointer;
+  @media screen and (max-width: 495px) {
+    display: block;
+  }
 }
 
 .movies-card__time {

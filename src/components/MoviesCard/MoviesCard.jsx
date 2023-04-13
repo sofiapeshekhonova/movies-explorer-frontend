@@ -1,10 +1,9 @@
 import "./MoviesCard.scss";
-import like from "../../images/like.svg";
 import poster from "../../images/movie-poster.jpg";
 
-function MoviesCard({ film }) {
+function MoviesCard({ film, props }) {
   const { nameRU, trailerLink, duration } = film;
-  //image.url image.name image.previewUrl?
+  const {className, src, alt} = props;
 
   return (
     <li className="movies-card">
@@ -14,7 +13,7 @@ function MoviesCard({ film }) {
         <div className="movies-card__container">
           <div className="movies-card__info">
             <h4 className="movies-card__title">{nameRU}</h4>
-            <img className="movies-card__like" alt="знак- избранное" src={like}/>
+            <img className={className} alt={alt} src={src}/>
           </div>
           <p className="movies-card__time">{duration}</p>
       </div>  
