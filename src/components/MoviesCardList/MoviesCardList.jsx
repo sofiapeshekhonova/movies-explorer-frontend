@@ -45,6 +45,7 @@ function MoviesCardList(props) {
       <button
         className="movies-card-list__button"
         aria-label="Кнопка: больше фильмов"
+        type="button"
       >
         Ещё
       </button>

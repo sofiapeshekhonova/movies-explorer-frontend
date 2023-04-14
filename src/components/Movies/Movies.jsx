@@ -7,14 +7,17 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import SearchForm from "../SearchForm/SearchForm";
 import "./Movies.scss";
 import like from "../../images/like.svg";
+import Layout from "../Layout/Layout";
 
 function Movies() {
 
   return (
-    <main className="movies">
-      <SearchForm />
-      <MoviesCardList className="movies-card__like" alt="кнопка: избранное" src={like}/>
-    </main>
+    <Layout className="header" title="Main" isLoggedIn>
+      <main className="movies">
+        <SearchForm />
+        <MoviesCardList className="movies-card__like" alt="кнопка: избранное" src={like}/>
+        </main>
+    </Layout>
   );
 }
 
