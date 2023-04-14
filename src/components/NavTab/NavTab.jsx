@@ -2,11 +2,31 @@ import { Link } from "react-router-dom";
 import profile from "../../images/profile.svg"
 import { AppRoute } from "../../constants";
 import "./NavTab.scss"
+// import { useState } from "react";
 
-function NavTab() {
+function NavTab({isOpen}) {
+  // const [activeBurger, setActiveBurger] = useState(false);
+  // const handleBtnClick = () => {
+  //   setActiveBurger(!activeBurger)
+  // }
+
+  // if(activeBurger) {
+  //   document.body.style.overflow = "hidden";
+  // } else {
+  //   document.body.style.overflow = "visible";
+  // }
+  
+  // const styleBurgerBtn = activeBurger ? 'header__burger-line_active' : 'header__burger-line';
+  const styleHeaderNavigation = isOpen ? 'nav-tab nav-tab_active' : 'nav-tab';
+
   return (
-    <div className="nav-tab">
+    <div className={styleHeaderNavigation}>
       <ul className="nav-tab__list">
+        <li className="nav-tab__item">
+          <Link className="nav-tab__item-link" to={AppRoute.Main}>
+            <p className="nav-tab__list-text">Главная</p>
+          </Link>
+        </li>
         <li className="nav-tab__item">
           <Link className="nav-tab__item-link" to={AppRoute.Movies}>
             <p className="nav-tab__list-text">Фильмы</p>

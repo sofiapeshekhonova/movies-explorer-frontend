@@ -3,9 +3,9 @@ import "./Profile.scss";
 import {AppRoute} from "../../constants";
 import Layout from "../Layout/Layout";
 
-function Profile() {
+function Profile({onOpenBurgerPopup}) {
   return (
-    <Layout className="header" title="Main" isLoggedIn>
+    <Layout className="header" title="Main" isLoggedIn page={false} onOpenBurgerPopup={onOpenBurgerPopup}>
       <main className="profile">
         <h2 className="profile__title">Привет, Виталий!</h2>
         <form className="form" noValidate>

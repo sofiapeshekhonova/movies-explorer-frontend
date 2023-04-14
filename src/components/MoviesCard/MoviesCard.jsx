@@ -5,7 +5,6 @@ function MoviesCard({ film, props }) {
   const { nameRU, trailerLink, duration } = film;
   const {className, src, alt} = props;
 
-  console.log(duration)
   const hours = Math.trunc(duration / 60);
   const minutes = Math.trunc(duration - hours * 60);
 
