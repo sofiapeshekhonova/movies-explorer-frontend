@@ -18,10 +18,10 @@ function Register() {
         <div className="form__container">
           <p className="form__title">Имя</p>
           <input
-            id="email"
+            id="name"
             className="form__input"
-            name="email"
-            type="email"
+            name="name"
+            type="text"
             required
           />
           <span className="form__text-error">ошибка</span>

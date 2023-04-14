@@ -5,6 +5,7 @@ import "./App.scss";
 import Movies from '../Movies/Movies';
 import Register from '../Register/Register';
 import Login from '../Login/Login';
+import Profile from '../Profile/Profile';
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
            <Route path="/" element={ <Main />} /> 
            <Route path="/movies" element={ <Movies />} />
             <Route path="/saved-movies" element={ <SavedMovies />} />
-           {/*<Route path="/profile" element={ <Profile />} /> */}
+           <Route path="/profile" element={ <Profile />} />
         {/* <Route path="*" element={<NotFound/>} />  */}
         </Routes>
     </div>
