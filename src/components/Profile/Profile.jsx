@@ -3,9 +3,10 @@ import "./Profile.scss";
 import {AppRoute} from "../../constants";
 import Layout from "../Layout/Layout";
 import { useState } from "react";
+import ValidationForm from "../../hooks/ValidationForm";
 
 function Profile({onOpenBurgerPopup}) {
-
+  const {handleChange, errors, formValue } = ValidationForm();
   const [isInputEdit, setIsInputEdit] = useState(true);
   
   function handleEditClick(evt) {
@@ -13,10 +14,10 @@ function Profile({onOpenBurgerPopup}) {
     setIsInputEdit(!isInputEdit);
   }
 
-  // const mistakeActive = mistake ? profile__span profile__span_active : profile__span;
-  // const buttonClass = isInputEdit ? "form__button profile__save-button button__disabled": "form__button profile__save-button";
-  const saveButton = isInputEdit ? "profile__save-buttons" : "profile__save-buttons_active button__hover";
+  const saveButton = isInputEdit ? "profile__save-buttons" : "profile__save-buttons_active";
   const editButton = isInputEdit ? "profile__form-buttons_active" : "profile__form-buttons";
+  const buttonDisables = (errors.email || errors.name );
+  const buttonClassName = buttonDisables ? "form__button profile__save-button button__disabled": "form__button profile__save-button button__hover";
 
   return (
     <Layout className="header" title="Main" isLoggedIn page={false} onOpenBurgerPopup={onOpenBurgerPopup}>
@@ -24,24 +25,34 @@ function Profile({onOpenBurgerPopup}) {
         <h2 className="profile__title">Привет, Виталий!</h2>
         <form className="form" noValidate>
           <div className="profile-form__container">
-            <p className="profile-form__title">Имя</p>
-            <input readOnly={isInputEdit}
-              id="name"
-              className="profile-form__input"
-              name="name"
-              type="text"
-              defaultValue="Имя"
-            />
+            <div className="profile-form__container-input">
+              <p className="profile-form__title">Имя</p>
+              <input readOnly={isInputEdit}
+                id="name"
+                className="profile-form__input"
+                name="name"
+                type="text"
+                value={formValue.name || 'name'}
+                minLength="2"
+                onChange={handleChange}
+              />
+            </div>
+            <span className="form__text-error_active">{errors.name}</span>
           </div>
           <div className="profile-form__container">
-            <p className="profile-form__title">E-mail</p>
-            <input readOnly={isInputEdit}
-              id="email"
-              className="profile-form__input"
-              name="email"
-              type="email"
-              defaultValue="email"
-            />
+            <div className="profile-form__container-input">
+              <p className="profile-form__title">E-mail</p>
+              <input readOnly={isInputEdit}
+                id="email"
+                className="profile-form__input"
+                name="email"
+                type="email"
+                value={formValue.email || 'email@mail.ru'}
+                minLength="2"
+                onChange={handleChange}
+              />
+            </div>
+            <span className="form__text-error_active">{errors.email}</span>
           </div>
           <div className={editButton}>
             <button onClick={handleEditClick}
@@ -59,7 +70,7 @@ function Profile({onOpenBurgerPopup}) {
         </div>
         <div className={saveButton}>
           <span className="profile__span">При обновлении профиля произошла ошибка.</span>
-          <button className="form__button profile__save-button">Сохранить</button>
+          <button className={buttonClassName} disabled={buttonDisables}>Сохранить</button>
         </div>
         </form>
       </main>

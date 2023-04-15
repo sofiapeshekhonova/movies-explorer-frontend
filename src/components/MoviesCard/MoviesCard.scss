@@ -51,18 +51,52 @@
 }
 
 .movies-card__like {
-  width: 14px;
-  height: 12px;
+  min-width: 14px;
+  min-height: 12px;
   padding: 0 8px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: 0;
+  background-color: transparent;
+  opacity: 1;
+  transition: opacity .5s ease-out;
+  padding: 0;
   cursor: pointer;
+  background-image: url(../../images/like.svg);
 }
 
+
+@media (any-hover: hover) {
+  .movies-card__like:hover {
+    opacity: .7;
+  }
+  .movies-card__dislike:hover {
+    opacity: .7;
+  }
+}
+
+.movies-card__like_active {
+  background-image: url(../../images/like-active.svg);
+  opacity: 1;
+}
+
+
 .movies-card__dislike {
-  width: 6.84px;
-  height: 6.72px;
+  min-width: 6.84px;
+  min-height: 6.72px;
   display: none;
   padding: 0 15px;
   cursor: pointer;
+  background-image: url(../../images/delete.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: 0;
+  background-color: transparent;
+  opacity: 1;
+  transition: opacity .5s ease-out;
+
   @media screen and (max-width: 495px) {
     display: block;
   }

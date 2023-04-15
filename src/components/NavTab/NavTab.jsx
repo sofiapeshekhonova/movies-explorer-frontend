@@ -9,7 +9,7 @@ function NavTab({isOpen, onClose}) {
   return (
     <div className={styleHeaderNavigation}>
       <ul className="nav-tab__list">
-        <li className="nav-tab__item text__hover" onClick={onClose}>
+        <li className="nav-tab__item nav-tab__item_active text__hover" onClick={onClose}>
           <Link className="nav-tab__item-link" to={AppRoute.Main}>
             <p className="nav-tab__list-text">Главная</p>
           </Link>

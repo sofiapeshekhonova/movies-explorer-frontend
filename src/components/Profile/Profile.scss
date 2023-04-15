@@ -29,22 +29,22 @@
 }
 
 .profile-form__container {
-  border-bottom: 1px solid var(--grey-light);
   margin-top: 17px;
   font-style: normal;
   font-weight: 500;
   font-size: 11px;
   line-height: 13px;
+  
+}
+
+.profile-form__container:first-of-type {
+  border-bottom: 1px solid var(--grey-light);
+}
+
+.profile-form__container-input {
   display: flex;
   justify-content: space-between;
-  padding-bottom: 16px;
 }
-
-.profile-form__container:last-of-type {
-  border: none;
-  padding: 0;
-}
-
 
 .profile-form__title {
   margin: 0;
@@ -54,6 +54,7 @@
   border: 0;
   margin: 0;
   text-align: end;
+  width: 80%;
 }
 
 .profile-form__input:focus {

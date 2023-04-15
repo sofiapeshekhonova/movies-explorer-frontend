@@ -3,7 +3,7 @@ import poster from "../../images/movie-poster.jpg";
 
 function MoviesCard({ film, props }) {
   const { nameRU, trailerLink, duration } = film;
-  const {className, src, alt} = props;
+  const {className, alt, likeClick } = props;
 
   const hours = Math.trunc(duration / 60);
   const minutes = Math.trunc(duration - hours * 60);
@@ -17,7 +17,7 @@ function MoviesCard({ film, props }) {
           <div>
           <div className="movies-card__info">
             <h4 className="movies-card__title">{nameRU}</h4>
-            <img className={className} alt={alt} src={src}/>
+            <button className={className} alt={alt} onClick={likeClick}/>
           </div>
           <p className="movies-card__time">{hours}ч {minutes}м</p>
           </div>
