@@ -8,3 +8,52 @@
   font-style: normal;
   max-width: 1280px;
 }
+
+.form__button {
+  width: 100%;
+  height: 45px;
+  background-color: var(--blue);
+  color: var(--white);
+  border-radius: 3px;
+  margin-top: 134px;
+  cursor: pointer;
+  line-height: 1;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  border: none;
+  padding: 0;
+  @media screen and (max-width: 320px) {
+    margin-top: 222px;
+  }
+}
+
+.button__disabled {
+  background-color: #F8F8F8;
+  color: #C2C2C2;
+  cursor: auto;
+}
+
+.button__hover {
+  opacity: 1;
+  transition-property: opasity;
+  transition-duration: 1s;
+  transition-timing-function: linear;
+  transition-delay: 2s;
+}
+
+.button__hover:hover {
+  opacity: 0.8;
+}
+
+.text__hover {
+  opacity: 1;
+  transition-property: opasity;
+  transition-duration: 1s;
+  transition-timing-function: linear;
+  transition-delay: 2s;
+}
+
+.text__hover:hover {
+  opacity: 0.7;
+}

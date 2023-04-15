@@ -28,8 +28,11 @@
 }
 
 .form__input_type_error {
-  border-bottom: 1px solid var(--pink);
   color: var(--pink);
+}
+
+.form__input_type_error:focus {
+  border-bottom: 1px solid var(--pink);
 }
 
 .form__text-error {

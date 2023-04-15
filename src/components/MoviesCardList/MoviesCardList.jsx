@@ -2,9 +2,9 @@ import MoviesCard from "../MoviesCard/MoviesCard";
 import "./MoviesCardList.scss";
 import mock from "../../utils/mock";
 import { useEffect, useState } from "react";
+import MoviesEmpty from "../MoviesEmpty/MoviesEmpty";
 
 function MoviesCardList(props) {
-
   const [countCard, setCountCard] = useState(12)
 
   useEffect(() => {
@@ -31,6 +31,8 @@ function MoviesCardList(props) {
 
   return (
     <section className="movies-card-list">
+      {mock.length !== 0 ?
+      <>
       <ul className="movies-card-list__list">
         {mock.map((film, index) => {
           if (index < countCard) {
@@ -38,17 +40,17 @@ function MoviesCardList(props) {
               <MoviesCard key={film.id} film={film} props={props}/>
             )
           } else {
-            return ('');
+            return ("");
           }        
         })}
       </ul>
       <button
-        className="movies-card-list__button"
+        className="movies-card-list__button button__hover"
         aria-label="Кнопка: больше фильмов"
         type="button"
-      >
-        Ещё
-      </button>
+      >Ещё</button>
+      </>
+      : <MoviesEmpty/>}
     </section>
   );
 }

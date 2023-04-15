@@ -1,10 +1,20 @@
 import { AppRoute } from "../../constants";
 import LoginAndRegister from "../LoginAndRegister/LoginAndRegister";
 import LoginAndRegisterForm from "../LoginAndRegisterForm/LoginAndRegisterForm";
-
+import ValidationForm from "../../hooks/ValidationForm"
 import "../Register/Register.scss";
 
-function Login() {
+function Login({login}) {
+  const {handleChange, errors, formValue } = ValidationForm();
+
+  function handelSubmit() {
+    login();
+    formValue.password = "";
+    formValue.email = "";
+  }
+  const buttonDisables = !(errors.email === "" && errors.password === "");
+  const buttonClassName = buttonDisables ? "login__button form__button button__disabled" : "login__button form__button button__hover";
+  
   return (
     <main>
       <LoginAndRegister
@@ -15,30 +25,37 @@ function Login() {
       >
         <LoginAndRegisterForm
           buttonText={"Войти"}
-          className="login__button form__button
-          "
+          onSubmit={handelSubmit}
+          className={buttonClassName}
+          disabled={buttonDisables}
         >
-          <div className="form__container">
-            <p className="form__title">Имя</p>
-            <input
-              id="email"
-              className="form__input"
-              name="email"
-              type="email"
-              required
-            />
-            <span className="form__text-error">ошибка</span>
-          </div>
           <div className="form__container">
             <p className="form__title">E-mail</p>
             <input
               id="email"
-              className="form__input"
+              className={!errors.email ? "form__input" : "form__input form__input_type_error"}
               name="email"
               type="email"
+              value={formValue.email || ''}
+              onChange={handleChange}
+              minLength="2"
               required
             />
-            <span className="form__text-error">ошибка</span>
+            <span className="form__text-error_active">{errors.email}</span>
+          </div>
+          <div className="form__container">
+            <p className="form__title">Пароль</p>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              value={formValue.password || ''}
+              className={!errors.password ? "form__input" : "form__input form__input_type_error"}
+              onChange={handleChange}
+              minLength="2"
+              required
+            />
+            <span className="form__text-error_active">{errors.password}</span>
           </div>
         </LoginAndRegisterForm>
       </LoginAndRegister>

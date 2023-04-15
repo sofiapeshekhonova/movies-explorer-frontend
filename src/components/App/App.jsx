@@ -1,4 +1,4 @@
-import {Routes, Route} from "react-router-dom";
+import {Routes, Route, useNavigate} from "react-router-dom";
 import Main from "../Main/Main";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import "./App.scss";
@@ -13,6 +13,8 @@ import { useEffect, useState } from "react";
 
 function App() {
   const [isOpenBurgerPopup, setisOpenBurgerPopup] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     function handelEscape(evt) {
@@ -45,16 +47,20 @@ function App() {
   function closeBurgerPopup () {
     setisOpenBurgerPopup(false)
   }
+
+  function handelLoginClick() {
+    navigate(AppRoute.Movies, {replace: true})
+  }
   
   return (
     <div className="page">
       <BurgerPopup isOpen={isOpenBurgerPopup} onClose={closeBurgerPopup}/>
       <Routes> 
         <Route path={AppRoute.Register} element={<Register />}></Route>
-        <Route path={AppRoute.Login} element={<Login />}></Route>
+        <Route path={AppRoute.Login} element={<Login login={handelLoginClick}/>}></Route>
         <Route path={AppRoute.Main} element={<Main />} />
-        <Route path={AppRoute.Movies} element={<Movies onOpenBurgerPopup={handelOpenBurgerPopup}/>} />
-        <Route path={AppRoute.SavedMovies} element={<SavedMovies onOpenBurgerPopup={handelOpenBurgerPopup}/>} />
+        <Route path={AppRoute.Movies} element={<Movies onOpenBurgerPopup={handelOpenBurgerPopup} isLoading={isLoading}/>} />
+        <Route path={AppRoute.SavedMovies} element={<SavedMovies onOpenBurgerPopup={handelOpenBurgerPopup} isLoading={isLoading}/>} />
         <Route path={AppRoute.Profile} element={<Profile onOpenBurgerPopup={handelOpenBurgerPopup}/>} />
         <Route path={AppRoute.NotFound} element={<NotFound />} />
       </Routes>

@@ -12,12 +12,11 @@ function AboutMe() {
         <div className="about-me__info">
           <h2 className="about-me__title">Софья</h2>
           <p className="about-me__description">Фронтенд-разработчик, 28 лет</p>
-          <p className="about-me__information">Я родился и живу в Саратове, закончил факультет экономики СГУ. У меня есть жена 
-            и дочь. Я люблю слушать музыку, а ещё увлекаюсь бегом. Недавно начал кодить. 
-            С 2015 года работал в компании «СКБ Контур». После того, как прошёл курс по веб-разработке, 
-            начал заниматься фриланс-заказами и ушёл с постоянной работы.
+          <p className="about-me__information">Я живу в Санкт-Петербурге. 
+            С 2016 по 2022 год работала event-менеджером. Мне нравится заниматься фронтенд-разработкой, потому что ты сразу видишь результат. 
+            Делаешь сайт более понятным для пользователя и немного облегчаешь ему жизнь.
           </p>
-          <a className="about-me__link" href="https://github.com/sofiapeshekhonova?tab=repositories" target="_blank" rel="noreferrer">Github</a>
+          <a className="about-me__link text__hover" href="https://github.com/sofiapeshekhonova?tab=repositories" target="_blank" rel="noreferrer">Github</a>
         </div>
       </div>
     </section>
