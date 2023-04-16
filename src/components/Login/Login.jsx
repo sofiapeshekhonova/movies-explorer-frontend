@@ -13,8 +13,7 @@ function Login({login}) {
     formValue.email = "";
   }
   const buttonDisables = !(errors.email === "" && errors.password === "");
-  const buttonClassName = buttonDisables ? "login__button form__button button__disabled" : "login__button form__button button__hover";
-  
+  const buttonClassName = `login__button form__button ${buttonDisables ? "button__disabled" : "button__hover"}`;
   return (
     <main>
       <LoginAndRegister

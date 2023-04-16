@@ -19,6 +19,7 @@
     padding-top: 56px;
     padding-bottom: 30px;
     max-width: 260px;
+    align-items: center;
   }
 }
 
@@ -30,7 +31,7 @@
   text-align: start;
   margin: 40px 0;
   @media screen and (max-width: 320px) {
-    padding-top: 50px;
+    padding-top: 8px;
     margin-bottom: 80px;
     text-align: center;
   }

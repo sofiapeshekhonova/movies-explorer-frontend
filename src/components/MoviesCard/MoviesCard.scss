@@ -14,10 +14,9 @@
 }
 
 .movies-card__container {
-  // padding: 16px 16px;
   cursor: pointer;
   @media screen and (max-width: 895px) {
-    padding: 14px 14px;
+    padding: 10px 14px 14px;
   }
 }
 
@@ -32,10 +31,16 @@
 }
 
 .movies-card__info {
-  padding: 16px 16px 0 16px;
+  padding: 16px 24px 0 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  @media screen and (max-width: 895px){
+    padding: 1px 8px 0 0px;
+  }
+  @media screen and (max-width: 495px){
+    padding-right: 4px;
+  }
 }
 
 .movies-card__title {
@@ -111,6 +116,7 @@
   margin: 17px 0 0 0;
   @media screen and (max-width: 895px) {
     margin-top: 15px;
+    padding: 0;
   }
   @media screen and (max-width: 495px) {
     font-size: 10px;

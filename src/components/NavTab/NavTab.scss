@@ -10,15 +10,9 @@ $black: var(--black);
 }
 
 .nav-tab_active {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    // background-color: var(--milk);
-    // transition: all 0.3s ease 0s;
-    // position: fixed;
-    // width: 60%;
-    // top: 0;
-    // right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .nav-tab__list {
@@ -28,41 +22,49 @@ $black: var(--black);
   align-items: center;
   @media screen and (max-width: 768px) {
     flex-direction: column;
-    margin: 139px 0 0 0;
+    margin: 88px 0 0 0;
+  }
+  @media screen and (max-width: 400px) {
+    margin-top: 82px;
   }
 }
 
-.nav-tab__item-link {
-  text-decoration: none;
-  color: var(--black);
+.nav-tab__item {
+  list-style: none;
+  margin: 0 16px 0 0;
+  @media screen and (max-width: 768px) {
+    margin: 31px 0 0 0;
+  }
+  @media screen and (max-width: 400px) {
+    margin-top: 27px;
+  }
 }
 
 .nav-tab__item:first-child {
   display: none;
   @media screen and (max-width: 768px) {
     display: block;
+    margin: 16px 0 0 0;
   }
 }
 
-.nav-tab__item {
-  list-style: none;
-}
-
-.nav-tab__item_active {
-  
-}
-
-.nav-tab__list-text {
-  margin: 0 16px 0 0;
-  font-weight: 500;
+.nav-tab__item-link {
+  text-decoration: none;
+  color: var(--black);
+  font-weight: 400;
   font-size: 13px;
   line-height: 18px;
+  padding-bottom: 4px;
   @media screen and (max-width: 768px) {
-    margin: 20px 0 0 0;
+    font-weight: 500;
+    font-size: 18px;
+  }
+  @media screen and (max-width: 400px) {
+    padding-bottom: 7px;
   }
 }
 
-.nav-tav__profile-link {
+.nav-tab__profile-link {
   display: flex;
   align-items: center;
   color: $black;
@@ -72,14 +74,23 @@ $black: var(--black);
   }
 }
 
-.nav-tav__profile-name {
+.nav-tab__item-link_active {
+  color: var(--blue);
+  font-weight: 500;
+  @media screen and (max-width: 768px) {
+    color: $black;
+    border-bottom: 2px solid $black;
+  }
+}
+
+.nav-tab__profile-name {
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
   margin: 0 17px 0 0;
 }
 
-.nav-tav__profile-img {
+.nav-tab__profile-img {
   width: 26px;
   height: 30px;
 }

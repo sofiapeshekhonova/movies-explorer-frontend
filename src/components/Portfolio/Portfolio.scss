@@ -2,10 +2,10 @@
   padding: 0 70px 125px;
   background-color: var(--milk);
   @media screen and (max-width: 768px) {
-    padding: 0 50px 90px;
+    padding: 0 50px 73px;
   }
   @media screen and (max-width: 495px) {
-    padding: 0 14px 70px;
+    padding: 0 14px 54px;
   }
 }
 
@@ -55,15 +55,21 @@
   font-size: 30px;
   line-height: 50px;
   letter-spacing: -0.04em;
+  @media screen and (max-width: 768px) {
+    letter-spacing: -0.07em;
+  }
   @media screen and (max-width: 495px) {
     font-size: 18px;
     line-height: 28px;
+    letter-spacing: -0.04em;
   }
 }
 
 .portfolio__link-img {
-  width: 22px;
-  height: 22px;
+  width: 17px;
+  height: 17px;
+  margin-top: 20px;
+  margin-right: 6px;
   @media screen and (max-width: 495px) {
     width: 10px;
     height: 10px;

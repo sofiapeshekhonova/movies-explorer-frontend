@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 function App() {
   const [isOpenBurgerPopup, setisOpenBurgerPopup] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -58,10 +59,10 @@ function App() {
       <Routes> 
         <Route path={AppRoute.Register} element={<Register />}></Route>
         <Route path={AppRoute.Login} element={<Login login={handelLoginClick}/>}></Route>
-        <Route path={AppRoute.Main} element={<Main />} />
-        <Route path={AppRoute.Movies} element={<Movies onOpenBurgerPopup={handelOpenBurgerPopup} isLoading={isLoading}/>} />
-        <Route path={AppRoute.SavedMovies} element={<SavedMovies onOpenBurgerPopup={handelOpenBurgerPopup} isLoading={isLoading}/>} />
-        <Route path={AppRoute.Profile} element={<Profile onOpenBurgerPopup={handelOpenBurgerPopup}/>} />
+        <Route path={AppRoute.Main} element={<Main isLoggedIn={isLoggedIn}/>} />
+        <Route path={AppRoute.Movies} element={<Movies onOpenBurgerPopup={handelOpenBurgerPopup} isLoading={isLoading} />} />
+        <Route path={AppRoute.SavedMovies} element={<SavedMovies onOpenBurgerPopup={handelOpenBurgerPopup} isLoading={isLoading} />} />
+        <Route path={AppRoute.Profile} element={<Profile onOpenBurgerPopup={handelOpenBurgerPopup} />} />
         <Route path={AppRoute.NotFound} element={<NotFound />} />
       </Routes>
     </div>

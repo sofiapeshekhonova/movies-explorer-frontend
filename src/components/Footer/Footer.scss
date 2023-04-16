@@ -1,5 +1,5 @@
 .footer {
-  padding: 79px 70px 20px 70px;
+  padding: 64px 70px 20px 70px;
   background-color: #F8F8F8;
   @media screen and (max-width: 768px) {
     padding: 79px 30px 20px 30px;
@@ -61,6 +61,7 @@
   display: flex;
   padding: 0;
   grid-area: list;
+  margin: 0;
   @media screen and (max-width: 495px) {
     flex-direction: column;
     margin-bottom: 30px;

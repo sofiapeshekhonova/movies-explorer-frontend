@@ -2,7 +2,7 @@
   padding: 110px 70px;
   background-color: var(--milk);
   @media screen and (max-width: 768px) {
-    padding: 90px 50px;
+    padding: 95px 50px;
   }
   @media screen and (max-width: 495px) {
     padding: 70px 18px;
@@ -21,12 +21,10 @@
   }
   @media screen and (max-width: 495px) {
     flex-direction: column;
+    margin-top: 64px;
     margin-bottom: 60px;
+    gap: 56px;
   }
-}
-
-.about-project__container-text {
-
 }
 
 .about-project__title {
@@ -98,12 +96,12 @@
   color: var(--white);
   background-color: var(--blue);
   box-sizing: border-box;
-  padding: 9px 74px;
+  padding: 9px 84px;
   @media screen and (max-width: 768px) {
-    padding: 9px 36px;
+    padding: 9px 40px;
   }
   @media screen and (max-width: 495px) {
-    padding: 9px 23px;
+    padding: 10px 26px;
   }
 }
 
@@ -120,4 +118,9 @@
   font-size: 14px;
   line-height: 17px;
   margin: 14px 0 0;
+  @media screen and (max-width: 495px) {
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+  }
 }

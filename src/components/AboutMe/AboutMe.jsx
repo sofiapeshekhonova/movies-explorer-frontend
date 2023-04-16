@@ -11,7 +11,7 @@ function AboutMe() {
         <img className="about-me__image" src={me} alt="фотография студента"/>
         <div className="about-me__info">
           <h2 className="about-me__title">Софья</h2>
-          <p className="about-me__description">Фронтенд-разработчик, 28 лет</p>
+          <p className="about-me__decription">Фронтенд-разработчик, 28 лет</p>
           <p className="about-me__information">Я живу в Санкт-Петербурге. 
             С 2016 по 2022 год работала event-менеджером. Мне нравится заниматься фронтенд-разработкой, потому что ты сразу видишь результат. 
             Делаешь сайт более понятным для пользователя и немного облегчаешь ему жизнь.

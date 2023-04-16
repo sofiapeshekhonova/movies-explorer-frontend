@@ -18,6 +18,11 @@
   line-height: 18px;
   box-sizing: border-box;
   padding: 15px 0 15px 22px;
+  font-weight: 400;
+  @media screen and (max-width: 495px) {
+    font-size: 12px;
+    line-height: 18px;
+    }
 }
 
 .search-form__button {
@@ -29,8 +34,12 @@
   padding: 13px 17px;
   font-size: 12px;
   line-height: 18px;
-  margin-left: 10px;
+  margin-left: 20px;
   cursor: pointer;
+  @media screen and (max-width: 495px) {
+    margin-left: 14px;
+    padding: 13px 19px;
+  }
 }
 
 .search-form__checkbox {
@@ -38,6 +47,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  @media screen and (max-width: 495px) {
+    margin-top: 41px;
+  }
 }
 
 .search-form__checkbox-switcher {

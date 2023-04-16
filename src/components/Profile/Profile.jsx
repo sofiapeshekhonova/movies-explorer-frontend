@@ -17,8 +17,7 @@ function Profile({onOpenBurgerPopup}) {
   const saveButton = isInputEdit ? "profile__save-buttons" : "profile__save-buttons_active";
   const editButton = isInputEdit ? "profile__form-buttons_active" : "profile__form-buttons";
   const buttonDisables = (errors.email || errors.name );
-  const buttonClassName = buttonDisables ? "form__button profile__save-button button__disabled": "form__button profile__save-button button__hover";
-
+  const buttonClassName = `form__button profile__save-button ${buttonDisables ? "button__disabled" : "button__hover"}`;
   return (
     <Layout className="header" title="Main" isLoggedIn page={false} onOpenBurgerPopup={onOpenBurgerPopup}>
       <main className="profile">
@@ -37,7 +36,7 @@ function Profile({onOpenBurgerPopup}) {
                 onChange={handleChange}
               />
             </div>
-            <span className="form__text-error_active">{errors.name}</span>
+            <span className="form__text-error_active profile__span">{errors.name}</span>
           </div>
           <div className="profile-form__container">
             <div className="profile-form__container-input">
@@ -52,7 +51,7 @@ function Profile({onOpenBurgerPopup}) {
                 onChange={handleChange}
               />
             </div>
-            <span className="form__text-error_active">{errors.email}</span>
+            <span className="form__text-error_active form__text-error_active profile__span">{errors.email}</span>
           </div>
           <div className={editButton}>
             <button onClick={handleEditClick}

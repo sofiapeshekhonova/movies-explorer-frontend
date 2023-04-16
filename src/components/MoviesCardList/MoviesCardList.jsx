@@ -20,7 +20,7 @@ function MoviesCardList(props) {
   });  
 
   const handleChangeWidthScreen = () => {    
-    if (window.innerWidth < 376) {
+    if (window.innerWidth < 377) {
       setCountCard(5)
     } else if (window.innerWidth < 898) {
       setCountCard(8)

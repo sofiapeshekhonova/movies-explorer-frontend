@@ -1,8 +1,8 @@
 .about-me {
   background-color: var(--milk);
-  padding: 110px 70px 101px;
+  padding: 114px 70px 101px;
   @media screen and (max-width: 768px) {
-    padding: 90px 50px 91px;
+    padding: 94px 50px 91px;
   }
   @media screen and (max-width: 495px) {
     padding: 70px 14px;
@@ -15,6 +15,7 @@
   ' text image';
   margin-top: 66px;
   gap: 49px;
+  justify-content: space-between;
   @media screen and (max-width: 608px) {
     margin-top: 60px;
     display: flex;
@@ -31,7 +32,7 @@
     max-width: 354px;
   }
   @media screen and (max-width: 495px) {
-    margin-top: 40px;
+    margin-top: 34px;
     max-width: 292px;
   }
 }
@@ -66,6 +67,7 @@
   @media screen and (max-width: 495px) {
     font-size: 11px;
     line-height: 16px;
+    font-weight: 500;
   }
 }
 
@@ -73,16 +75,16 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 22px;
-  margin: 26px 0 99px;
+  margin: 26px 0 124px;
   @media screen and (max-width: 768px) {
     font-size: 12px;
     line-height: 18px;
-    margin: 20px 0 87px;
+    margin: 20px 0 105px;
   }
   @media screen and (max-width: 495px) {
     font-size: 11px;
     line-height: 16px;
-    margin-bottom: 40px;
+    margin-bottom: 54px;
   }
 }
 
@@ -99,4 +101,9 @@
   grid-area: image;
   border-radius: 10px;
   max-width: 270px;
+  @media screen and (max-width: 495px) {
+    max-height: 352px;
+    max-width: 292px;
+  }
 }
+

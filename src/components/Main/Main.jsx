@@ -5,7 +5,7 @@ import AboutMe from '../AboutMe/AboutMe';
 import Portfolio from '../Portfolio/Portfolio';
 import Layout from '../Layout/Layout';
 
-function Main() {
+function Main({isLoggedIn}) {
 
   return (
     <Layout className="header header__main" title="Main" isLoggedIn={false} page>
