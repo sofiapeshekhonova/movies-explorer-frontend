@@ -19,6 +19,7 @@
 ***
 ## Дополнительные материалы
 * [Ссылка на макет в Figma](https://www.figma.com/file/aE7eba0JpVL9zBqpep7Dlj/Diploma-(Copy)?node-id=932-4421&t=U5mKWA1MfpQtuvI6-0)
+* [Яндекс диск](https://disk.yandex.ru/d/5wR5eTvuu2uolg)
 
 ### Контактные данные
 E-mail: peshehonova94@yandex.ru - Софья Пешехонова;
