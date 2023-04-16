@@ -16,7 +16,6 @@ function Footer({page}) {
           </li>
         </ul>
       </div>
-
     </footer>
   );
 }

@@ -5,7 +5,7 @@ function Layout({ className, children, isLoggedIn, page, onOpenBurgerPopup }) {
   return (
     <>
       <Header isLoggedIn={isLoggedIn} className={className} onOpenBurgerPopup={onOpenBurgerPopup}/>
-      {children}
+          {children}
       <Footer page={page} />
     </>
   );

@@ -7,7 +7,7 @@ import Preloader from "../Preloader/Preloader";
 function SavedMovies({onOpenBurgerPopup, isLoading}) {
 
   return (
-    <Layout className="header" title="Main" isLoggedIn card onOpenBurgerPopup={onOpenBurgerPopup}>
+    <Layout className="header" title="Main" isLoggedIn card onOpenBurgerPopup={onOpenBurgerPopup} page>
       <main className="saved-movies">
         <SearchForm />
         {isLoading ? <Preloader /> : 

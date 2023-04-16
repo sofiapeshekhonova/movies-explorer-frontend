@@ -9,13 +9,13 @@ function Main({isLoggedIn}) {
 
   return (
     <Layout className="header header__main" title="Main" isLoggedIn={false} page>
-      <div className="main">
+      <main className="main">
         <Promo />
         <AboutProject />
         <Techs />
         <AboutMe />
         <Portfolio />
-      </div>
+      </main>
     </Layout>
 
   );

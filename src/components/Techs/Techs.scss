@@ -62,7 +62,8 @@
   @media screen and (max-width: 768px) {
     grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
     max-width: 663px;
-    gap: 1px;
+    row-gap: 10px;
+    column-gap: 1px;
     justify-items: center;
   }
   @media screen and (max-width: 495px) {
