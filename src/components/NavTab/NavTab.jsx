@@ -7,18 +7,18 @@ function NavTab({isOpen, onClose}) {
   const styleHeaderNavigation = isOpen ? 'nav-tab nav-tab_active' : 'nav-tab';
 
   const linkClassName = ({isActive}) => isActive ? "nav-tab__item-link nav-tab__item-link_active" : "nav-tab__item-link" ;
-  const profileLink = ({isActive}) => `nav-tab__profile-link text_hover ${isActive && "nav-tab__item-link_active"}`;
+  const profileLink = ({isActive}) => `nav-tab__profile-link text-hover ${isActive && "nav-tab__item-link_active"}`;
   
   return (
     <div className={styleHeaderNavigation}>
       <ul className="nav-tab__list">
-        <li className="nav-tab__item text_hover" onClick={onClose}>
+        <li className="nav-tab__item text-hover" onClick={onClose}>
           <NavLink className={linkClassName} to={AppRoute.Main}>Главная</NavLink>
         </li>
-        <li className="nav-tab__item text_hover" onClick={onClose}>
+        <li className="nav-tab__item text-hover" onClick={onClose}>
           <NavLink className={linkClassName} to={AppRoute.Movies}>Фильмы</NavLink>
         </li>
-        <li className="nav-tab__item text_hover" onClick={onClose}>
+        <li className="nav-tab__item text-hover" onClick={onClose}>
           <NavLink className={linkClassName} to={AppRoute.SavedMovies}>Сохраненные фильмы</NavLink>
         </li>
       </ul>

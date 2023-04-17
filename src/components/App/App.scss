@@ -37,7 +37,7 @@
   cursor: auto;
 }
 
-.button_hover {
+.button-hover {
   opacity: 1;
   transition-property: opasity;
   transition-duration: 1s;
@@ -45,11 +45,11 @@
   transition-delay: 2s;
 }
 
-.button_hover:hover {
+.button-hover:hover {
   opacity: 0.8;
 }
 
-.text_hover {
+.text-hover {
   opacity: 1;
   transition-property: opasity;
   transition-duration: 1s;
@@ -57,6 +57,6 @@
   transition-delay: 2s;
 }
 
-.text_hover:hover {
+.text-hover:hover {
   opacity: 0.7;
 }

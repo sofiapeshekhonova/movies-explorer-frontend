@@ -45,7 +45,7 @@ function MoviesCardList(props) {
         })}
       </ul>
       <button
-        className="movies-card-list__button button_hover"
+        className="movies-card-list__button button-hover"
         aria-label="Кнопка: больше фильмов"
         type="button"
       >Ещё</button>

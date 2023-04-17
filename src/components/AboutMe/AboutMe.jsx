@@ -16,7 +16,7 @@ function AboutMe() {
             С 2016 по 2022 год работала event-менеджером. Мне нравится заниматься фронтенд-разработкой, потому что ты сразу видишь результат. 
             Делаешь сайт более понятным для пользователя и немного облегчаешь ему жизнь.
           </p>
-          <a className="about-me__link text_hover" href="https://github.com/sofiapeshekhonova?tab=repositories" target="_blank" rel="noreferrer">Github</a>
+          <a className="about-me__link text-hover" href="https://github.com/sofiapeshekhonova?tab=repositories" target="_blank" rel="noreferrer">Github</a>
         </div>
       </div>
     </section>

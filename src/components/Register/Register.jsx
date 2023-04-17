@@ -9,7 +9,7 @@ function Register() {
   const {handleChange, errors, formValue } = ValidationForm();
 
   const buttonDisables = !(errors.email === "" && errors.password === "" && errors.name === "");
-  const buttonClassName = buttonDisables ? "form__button button_disabled" : "form__button button_hover";
+  const buttonClassName = buttonDisables ? "form__button button_disabled" : "form__button button-hover";
 
   return (
     <main>
