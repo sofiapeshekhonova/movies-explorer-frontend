@@ -8,7 +8,7 @@ import Layout from '../Layout/Layout';
 function Main({isLoggedIn}) {
 
   return (
-    <Layout className="header header__main" title="Main" isLoggedIn={false} page>
+    <Layout className="header header_main" title="Main" isLoggedIn={false} page>
       <main className="main">
         <Promo />
         <AboutProject />

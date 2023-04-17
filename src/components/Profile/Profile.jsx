@@ -36,7 +36,7 @@ function Profile({onOpenBurgerPopup}) {
                 onChange={handleChange}
               />
             </div>
-            <span className="form__text-error_active profile__span">{errors.name}</span>
+            <span className="form__text-error form__text-error_profile">{errors.name}</span>
           </div>
           <div className="profile-form__container">
             <div className="profile-form__container-input">
@@ -51,7 +51,7 @@ function Profile({onOpenBurgerPopup}) {
                 onChange={handleChange}
               />
             </div>
-            <span className="form__text-error_active form__text-error_active profile__span">{errors.email}</span>
+            <span className="form__text-error form__text-error_profile">{errors.email}</span>
           </div>
           <div className={editButton}>
             <button onClick={handleEditClick}

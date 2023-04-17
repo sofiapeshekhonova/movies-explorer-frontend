@@ -7,7 +7,7 @@ function NavTab({isOpen, onClose}) {
   const styleHeaderNavigation = isOpen ? 'nav-tab nav-tab_active' : 'nav-tab';
 
   const linkClassName = ({isActive}) => isActive ? "nav-tab__item-link nav-tab__item-link_active" : "nav-tab__item-link" ;
-  const profileLink = ({isActive}) => `nav-tab__profile-link text_hover ${isActive && "nav-tab__profile-link nav-tab__item-link_active"}`;
+  const profileLink = ({isActive}) => `nav-tab__profile-link text_hover ${isActive && "nav-tab__item-link_active"}`;
   
   return (
     <div className={styleHeaderNavigation}>
