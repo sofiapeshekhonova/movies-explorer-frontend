@@ -4,7 +4,7 @@ function MainDescription({title}) {
 
   return (
     <div className="main-description">
-      <h3 className="main-description__title">{title}</h3>
+      <h2 className="main-description__title">{title}</h2>
       <div className="main-description__line"></div>
     </div>
   );

@@ -17,7 +17,7 @@ function Profile({onOpenBurgerPopup}) {
   const saveButton = isInputEdit ? "profile__save-buttons" : "profile__save-buttons_active";
   const editButton = isInputEdit ? "profile__form-buttons_active" : "profile__form-buttons";
   const buttonDisables = (errors.email || errors.name );
-  const buttonClassName = `form__button profile__save-button ${buttonDisables ? "button__disabled" : "button__hover"}`;
+  const buttonClassName = `form__button profile__save-button ${buttonDisables ? "button_disabled" : "button_hover"}`;
   return (
     <Layout className="header" title="Main" isLoggedIn page={false} onOpenBurgerPopup={onOpenBurgerPopup}>
       <main className="profile">
@@ -55,13 +55,13 @@ function Profile({onOpenBurgerPopup}) {
           </div>
           <div className={editButton}>
             <button onClick={handleEditClick}
-              className="profile__form-button text__hover"
+              className="profile__form-button text_hover"
               type="submit"
               aria-label="Редактировать информацию о себе"
             >
               Редактировать
             </button>
-            <Link to={AppRoute.Main} className="profile__link text__hover">
+            <Link to={AppRoute.Main} className="profile__link text_hover">
             <button className="profile__button" type="button" aria-label="">
               Выйти из аккаунта
             </button>

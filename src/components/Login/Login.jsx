@@ -13,7 +13,7 @@ function Login({login}) {
     formValue.email = "";
   }
   const buttonDisables = !(errors.email === "" && errors.password === "");
-  const buttonClassName = `login__button form__button ${buttonDisables ? "button__disabled" : "button__hover"}`;
+  const buttonClassName = `login__button form__button ${buttonDisables ? "button_disabled" : "button_hover"}`;
   return (
     <main>
       <LoginAndRegister
@@ -40,7 +40,7 @@ function Login({login}) {
               minLength="2"
               required
             />
-            <span className="form__text-error_active">{errors.email}</span>
+            <span className="form__text-error">{errors.email}</span>
           </div>
           <div className="form__container">
             <p className="form__title">Пароль</p>
@@ -54,7 +54,7 @@ function Login({login}) {
               minLength="2"
               required
             />
-            <span className="form__text-error_active">{errors.password}</span>
+            <span className="form__text-error">{errors.password}</span>
           </div>
         </LoginAndRegisterForm>
       </LoginAndRegister>

@@ -9,7 +9,7 @@ function Register() {
   const {handleChange, errors, formValue } = ValidationForm();
 
   const buttonDisables = !(errors.email === "" && errors.password === "" && errors.name === "");
-  const buttonClassName = buttonDisables ? "form__button button__disabled" : "form__button button__hover";
+  const buttonClassName = buttonDisables ? "form__button button_disabled" : "form__button button_hover";
 
   return (
     <main>
@@ -36,7 +36,7 @@ function Register() {
               minLength="2"
               required
             />
-            <span className="form__text-error_active">{errors.name}</span>
+            <span className="form__text-error">{errors.name}</span>
           </div>
           <div className="form__container">
             <p className="form__title">E-mail</p>
@@ -50,7 +50,7 @@ function Register() {
               minLength="2"
               required
             />
-            <span className="form__text-error_active">{errors.email}</span>
+            <span className="form__text-error">{errors.email}</span>
           </div>
           <div className="form__container">
             <p className="form__title">Пароль</p>
@@ -64,7 +64,7 @@ function Register() {
               minLength="2"
               required
             />
-            <span className="form__text-error_active">{errors.password}</span>
+            <span className="form__text-error">{errors.password}</span>
           </div>
         </LoginAndRegisterForm>
       </LoginAndRegister>

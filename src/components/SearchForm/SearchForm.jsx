@@ -17,7 +17,7 @@ function SearchForm() {
       <form>
         <div className="search-form__input-container">
           <input className="search-form__input" placeholder="Фильм" type="text" required></input>
-          <button className="search-form__button button__hover" type="submit" aria-label="Кнопка найти">Найти</button>
+          <button className="search-form__button button_hover" type="submit" aria-label="Кнопка найти">Найти</button>
         </div>
       </form>
       <label className="search-form__checkbox">

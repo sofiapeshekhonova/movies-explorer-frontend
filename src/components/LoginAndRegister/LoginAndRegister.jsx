@@ -12,7 +12,7 @@ function LoginAndRegister({title, paragraph, span, children, link}) {
         </Link>
         <h2 className="login__title">{title}</h2>
           {children}
-        <Link to={link} className="login__paragraph text__hover">
+        <Link to={link} className="login__paragraph text_hover">
           {paragraph} 
           <span className="login__paragraph_span">{span}</span>
         </Link>

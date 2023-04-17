@@ -31,13 +31,13 @@
   }
 }
 
-.button__disabled {
+.button_disabled {
   background-color: #F8F8F8;
   color: #C2C2C2;
   cursor: auto;
 }
 
-.button__hover {
+.button_hover {
   opacity: 1;
   transition-property: opasity;
   transition-duration: 1s;
@@ -45,11 +45,11 @@
   transition-delay: 2s;
 }
 
-.button__hover:hover {
+.button_hover:hover {
   opacity: 0.8;
 }
 
-.text__hover {
+.text_hover {
   opacity: 1;
   transition-property: opasity;
   transition-duration: 1s;
@@ -57,6 +57,6 @@
   transition-delay: 2s;
 }
 
-.text__hover:hover {
+.text_hover:hover {
   opacity: 0.7;
 }
