@@ -17,7 +17,8 @@ function Profile({onOpenBurgerPopup}) {
   const saveButton = isInputEdit ? "profile__save-buttons" : "profile__save-buttons_active";
   const editButton = isInputEdit ? "profile__form-buttons_active" : "profile__form-buttons";
   const buttonDisables = (errors.email || errors.name );
-  const buttonClassName = `form__button profile__save-button ${buttonDisables ? "button_disabled" : "button-hover"}`;
+  const buttonClassName = `form__button profile__save-button ${buttonDisables ? "form__button_disabled" : "button-hover"}`;
+  
   return (
     <Layout className="header" title="Main" isLoggedIn page={false} onOpenBurgerPopup={onOpenBurgerPopup}>
       <main className="profile">
