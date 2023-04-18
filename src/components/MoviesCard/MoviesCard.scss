@@ -1,0 +1,126 @@
+.movies-card {
+  list-style: none;
+  padding: 0;
+  max-width: 364px;
+  border-radius: 6px;
+  background-color: var(--white);
+  box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.08);
+  @media screen and (max-width: 895px) {
+    max-width: 339px;
+  }
+  @media screen and (max-width: 495px) {
+    max-width: 300px;
+  } 
+}
+
+.movies-card__container {
+  cursor: pointer;
+  @media screen and (max-width: 895px) {
+    padding: 10px 14px 14px;
+  }
+}
+
+.movies-card__container :hover .movies-card__dislike {
+  display: block;
+}
+
+.movies-card__image {
+  width: 100%;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.movies-card__info {
+  padding: 16px 24px 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  @media screen and (max-width: 895px){
+    padding: 1px 8px 0 0px;
+  }
+  @media screen and (max-width: 495px){
+    padding-right: 4px;
+  }
+}
+
+.movies-card__title {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 16px;
+  margin: 0;
+    @media screen and (max-width: 495px) {
+      font-size: 12px;
+      line-height: 15px;
+  }
+}
+
+.movies-card__like {
+  min-width: 14px;
+  min-height: 12px;
+  padding: 0 8px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: 0;
+  background-color: transparent;
+  opacity: 1;
+  transition: opacity .5s ease-out;
+  padding: 0;
+  cursor: pointer;
+  background-image: url(../../images/like.svg);
+}
+
+
+@media (any-hover: hover) {
+  .movies-card__like:hover {
+    opacity: .7;
+  }
+  .movies-card__dislike:hover {
+    opacity: .7;
+  }
+}
+
+.movies-card__like_active {
+  background-image: url(../../images/like-active.svg);
+  opacity: 1;
+}
+
+
+.movies-card__dislike {
+  min-width: 6.84px;
+  min-height: 6.72px;
+  display: none;
+  padding: 0 15px;
+  cursor: pointer;
+  background-image: url(../../images/delete.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: 0;
+  background-color: transparent;
+  opacity: 1;
+  transition: opacity .5s ease-out;
+
+  @media screen and (max-width: 495px) {
+    display: block;
+  }
+}
+
+.movies-card__time {
+  font-weight: 400;
+  padding: 0 0 16px 16px;
+  font-size: 11px;
+  line-height: 13px;
+  color: var(--grey-dark);
+  margin: 17px 0 0 0;
+  @media screen and (max-width: 895px) {
+    margin-top: 15px;
+    padding: 0;
+  }
+  @media screen and (max-width: 495px) {
+    font-size: 10px;
+    line-height: 12px;
+    margin-top: 14px;
+  }
+}

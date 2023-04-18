@@ -1,0 +1,96 @@
+.techs {
+  background-color: var(--background-intro);
+  padding: 100px 70px;
+  @media screen and (max-width: 768px) {
+    padding: 90px 50px;
+  }
+  @media screen and (max-width: 495px) {
+    padding: 70px 14px;
+  }
+}
+
+.techs__title {
+  margin: 90px 0 0;
+  text-align: center;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 50px;
+  line-height: 58px;
+  letter-spacing: -0.04em;
+  @media screen and (max-width: 768px) {
+    font-size: calc(30px + 20 *(100vw / 768));
+    margin-top: 80px;
+  }
+  @media screen and (max-width: 495px) {
+    font-size: 30px;
+    line-height: 36px;
+    margin-top: 60px;
+  }
+}
+
+.techs__description {
+  margin: 31px auto 100px;
+  text-align: center;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: -0.04em;
+  max-width: 460px;
+  @media screen and (max-width: 768px) {
+    font-size: 12px;
+    line-height: 18px;
+    margin: 22px auto 83px;
+  }
+  @media screen and (max-width: 495px) {
+    padding: 0 7px;
+    font-size: 11px;
+    line-height: 16px;
+    margin: 24px auto 50px;
+  }
+}
+
+.techs__list {
+  text-decoration: none;
+  list-style: none;
+  padding: 0;
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  margin: 0 auto;
+  max-width: 690px;
+  @media screen and (max-width: 768px) {
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    max-width: 663px;
+    row-gap: 10px;
+    column-gap: 1px;
+    justify-items: center;
+  }
+  @media screen and (max-width: 495px) {
+    max-width: 178px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 13px;
+  }
+}
+
+.techs__list-items {
+  background-color: var(--grey-light);
+  border-radius: 10px;
+  padding: 21px 0 22px 0;
+  max-width: 90px;
+  width: 100%;
+  // margin-right: 10px;
+  text-align: center;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  @media screen and (max-width: 768px) {
+    max-width: 84px;
+    font-size: 12px;
+  }
+}
+
+.techs__list-items:last-of-type {
+  margin-right: 0;
+}

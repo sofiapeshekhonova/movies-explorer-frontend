@@ -1,0 +1,16 @@
+.main-description__title {
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1;
+  margin: 0 0 23px;
+  @media screen and (max-width: 320px) {
+    font-size: 18px;
+    letter-spacing: -0.04rem;
+    margin-bottom: 28px;
+  }
+}
+
+.main-description__line {
+  border: 1px solid;
+  width: 100%;
+}

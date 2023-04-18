@@ -1,0 +1,8 @@
+.movies-empty {
+  margin: 50px auto;
+  color: var(--blue);
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  text-align: center;
+}

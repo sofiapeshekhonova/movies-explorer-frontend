@@ -1,0 +1,36 @@
+.nav-tab-main {
+
+}
+
+.nav-tab-main__list {
+  display: flex;
+  padding: 0;
+  margin: 0 0 0 30px;
+  @media screen and (max-width: 320px) {
+    margin-left: 14px;
+  }
+}
+
+.nav-tab-main__item {
+  list-style: none;
+}
+
+.nav-tab-main__link {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  text-decoration: none;
+  color: var(--black);
+  padding: 8px 20px;
+  @media screen and (max-width: 320px) {
+    font-size: 10px;
+    padding: 5px 12px;
+  }
+}
+
+.nav-tab-main__link_login {
+  color: var(--white);
+  background-color: var(--blue);
+  box-sizing: border-box;
+  border-radius: 3px;
+}
