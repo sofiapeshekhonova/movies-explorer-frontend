@@ -7,11 +7,13 @@ import "../Register/Register.scss";
 function Login({login}) {
   const {handleChange, errors, formValue } = ValidationForm();
 
-  function handelSubmit() {
-    login();
+  function handelSubmit(e) {
+    e.preventDefault();
+    login(formValue.password, formValue.email);
     formValue.password = "";
     formValue.email = "";
   }
+
   const buttonDisables = !(errors.email === "" && errors.password === "");
   const buttonClassName = `login__button form__button ${buttonDisables ? "form__button_disabled" : "button-hover"}`;
   return (

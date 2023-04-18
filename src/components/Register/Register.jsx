@@ -5,11 +5,20 @@ import LoginAndRegisterForm from "../LoginAndRegisterForm/LoginAndRegisterForm";
 import "./Register.scss";
 import ValidationForm from "../../hooks/ValidationForm";
 
-function Register() {
+function Register({register}) {
   const {handleChange, errors, formValue } = ValidationForm();
 
   const buttonDisables = !(errors.email === "" && errors.password === "" && errors.name === "");
   const buttonClassName = buttonDisables ? "form__button form__button_disabled" : "form__button button-hover";
+
+  
+  function handelSubmit(e) {
+    e.preventDefault();
+    register(formValue.password, formValue.email, formValue.name);
+    formValue.password = "";
+    formValue.email = "";
+    formValue.name = "";
+  }
 
   return (
     <main>
@@ -23,6 +32,7 @@ function Register() {
           buttonText={"Зарегистрироваться"}
           className={buttonClassName}
           disabled={buttonDisables}
+          onSubmit={handelSubmit}
         >
           <div className="form__container">
             <p className="form__title">Имя</p>

@@ -6,9 +6,8 @@ import Portfolio from '../Portfolio/Portfolio';
 import Layout from '../Layout/Layout';
 
 function Main({isLoggedIn}) {
-
   return (
-    <Layout className="header header_main" title="Main" isLoggedIn={false} page>
+    <Layout className="header header_main" title="Main" isLoggedIn={isLoggedIn} page>
       <main className="main">
         <Promo />
         <AboutProject />
