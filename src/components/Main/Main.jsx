@@ -5,9 +5,9 @@ import AboutMe from '../AboutMe/AboutMe';
 import Portfolio from '../Portfolio/Portfolio';
 import Layout from '../Layout/Layout';
 
-function Main({isLoggedIn}) {
+function Main({isLoggedIn, onOpenBurgerPopup}) {
   return (
-    <Layout className="header header_main" title="Main" isLoggedIn={isLoggedIn} page>
+    <Layout className="header header_main" title="Main" isLoggedIn={isLoggedIn} page onOpenBurgerPopup={onOpenBurgerPopup}>
       <main className="main">
         <Promo />
         <AboutProject />

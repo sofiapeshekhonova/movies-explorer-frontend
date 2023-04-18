@@ -1,12 +1,13 @@
 import MoviesCard from "../MoviesCard/MoviesCard";
 import "./MoviesCardList.scss";
-import mock from "../../utils/mock";
+// import mock from "../../utils/mock";
 import { useEffect, useState } from "react";
 import MoviesEmpty from "../MoviesEmpty/MoviesEmpty";
 
 function MoviesCardList(props) {
   const [countCard, setCountCard] = useState(12)
-
+  const {movies} = props;
+  console.log(movies)
   useEffect(() => {
     let timer;
     const handleChangeWidthScreenTimer = () => {
@@ -31,10 +32,10 @@ function MoviesCardList(props) {
 
   return (
     <section className="movies-card-list">
-      {mock.length !== 0 ?
+      {movies.length !== 0 ?
       <>
       <ul className="movies-card-list__list">
-        {mock.map((film, index) => {
+        {movies.map((film, index) => {
           if (index < countCard) {
             return (
               <MoviesCard key={film.id} film={film} props={props}/>

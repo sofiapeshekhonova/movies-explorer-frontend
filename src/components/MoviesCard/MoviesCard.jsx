@@ -1,8 +1,7 @@
 import "./MoviesCard.scss";
-import poster from "../../images/movie-poster.jpg";
 
 function MoviesCard({ film, props }) {
-  const { nameRU, trailerLink, duration } = film;
+  const { nameRU, trailerLink, duration, image } = film;
   const {className, alt, likeClick } = props;
 
   const hours = Math.trunc(duration / 60);
@@ -11,7 +10,7 @@ function MoviesCard({ film, props }) {
   return (
     <li className="movies-card">
       <a className="movies-card__trailer-link" href={trailerLink} target="_blank" rel="noreferrer">
-        <img className="movies-card__image" alt="постер фильма" src={poster}/>
+        <img className="movies-card__image" alt="постер фильма" src={` https://api.nomoreparties.co${image.url}`}/>
       </a>
         <div className="movies-card__container">
           <div>

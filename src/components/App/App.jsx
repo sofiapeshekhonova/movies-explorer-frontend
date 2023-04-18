@@ -1,4 +1,4 @@
-import {Routes, Route, useNavigate} from "react-router-dom";
+import {Routes, Route, useNavigate, useLocation} from "react-router-dom";
 import Main from "../Main/Main";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import "./App.scss";
@@ -13,18 +13,20 @@ import {useEffect, useState} from "react";
 import {register, login} from "../../utils/Auth";
 import {api} from "../../utils/MainApi";
 import {apiMovies} from "../../utils/MoviesApi";
-import * as auth from '../../utils/Auth';
+import * as auth from "../../utils/Auth";
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
 import ProtectedRouteElement from "../ProtectedRoute/ProtectedRoute";
 import {CurrentUserContext} from "../../contexts/CurrentUserContext";
+import Preloader from "../Preloader/Preloader";
 
 function App() {
   const [isOpenBurgerPopup, setisOpenBurgerPopup] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [loggedIn, isLoggedIn] = useState(false);
-  const [userData, setUserData] = useState("");
   const [currentUser, setCurrentUser] = useState({});
+  const [movies, setMovies] = useState({})
   const [isOpenInfoTooltip, setOpenInfoTooltip] = useState(false);
+  const [updateUserError, setUpdateUserError] = useState("");
   const [registerResponse, isregisterResponse] = useState({
     status: false,
     text: "",
@@ -32,7 +34,6 @@ function App() {
 
   const navigate = useNavigate();
   const token = localStorage.getItem("jwt");
-
   useEffect(() => {
     // если у пользователя есть токен в localStorage,эта функция проверит валидность токена
     if (token) {
@@ -40,10 +41,8 @@ function App() {
         .checkToken(token)
         .then((res) => {
           if (res) {
-            isLoggedIn(true); 
-            setUserData(res); //получаем данные пользователя
-            console.log(res)
-            navigate(AppRoute.Movies, {replace: true});
+            isLoggedIn(true);
+            setCurrentUser(res); //получаем данные пользователя
           }
         })
         .catch((err) => {
@@ -57,8 +56,9 @@ function App() {
       isLoggedIn(true);
       setIsLoading(true);
       Promise.all([api.getUserInfo(), apiMovies.getMovies()])
-        .then(([user]) => {
+        .then(([user, movies]) => {
           setCurrentUser(user);
+          setMovies(movies)
         })
         .catch((err) => {
           console.log(err);
@@ -97,26 +97,47 @@ function App() {
 
   function handelLoginClick(password, email) {
     login(password, email)
-    .then((data) => {
-      localStorage.setItem("jwt", data.token);
-      isLoggedIn(true);
-      navigate('/movies',{replace: true});
+      .then((data) => {
+        localStorage.setItem("jwt", data.token);
+        isLoggedIn(true);
+        navigate("/movies", {replace: true});
+        setCurrentUser(data);
+      })
+      .catch((res) => {
+        if (res === "Ошибка 401") {
+          setOpenInfoTooltip(true);
+          isregisterResponse({
+            status: false,
+            text: "Пользователь с такой почтой не зарегистрирован",
+          });
+        } else if (!res) {
+          isregisterResponse({
+            status: false,
+            text: res,
+          });
+        }
+      });
+  }
+
+  function handelUpdateUserClick(value) {
+    setIsLoading(true);
+    api
+    .saveNewUserInfo(value)
+    .then((user) => {
+      setCurrentUser(user);
     })
-    .catch((res) => {
-      if(res === 'Ошибка 401') {
-        setOpenInfoTooltip(true);
-        isregisterResponse({
-          status: false,
-          text: "Пользователь с такой почтой не зарегистрирован",
-        });
-      } else if(!res) {
-        isregisterResponse({
-          status: false,
-          text: res,
-        });
+    .then(closeAllPopups)
+    .catch((err) => {
+      if (err === "Ошибка: 409") {
+        setUpdateUserError("Пользователь с такой почтой уже зарегистрирован")
+      } else {
+        setUpdateUserError(err)
       }
     })
-  } 
+    .finally(() => {
+      setIsLoading(false);
+    });
+  }
 
   useEffect(() => {
     function handelEscape(evt) {
@@ -152,51 +173,71 @@ function App() {
     setOpenInfoTooltip(false);
   }
 
-  console.log(loggedIn)
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <BurgerPopup isOpen={isOpenBurgerPopup} onClose={closeBurgerPopup} />
-        <Routes>
-          <Route path={AppRoute.Register} element={
-          <Register register={handelRegisterClick}/>}>
-          </Route>
-          <Route
-            path={AppRoute.Login}
-            element={<Login login={handelLoginClick} />}
-          />
-          <Route path={AppRoute.Main} element={<Main isLoggedIn={loggedIn} />} />
-          <Route
-            path={AppRoute.Movies}
-            element={
-              <ProtectedRouteElement 
-                component={Movies}
-                isLoggedIn={loggedIn}
-                onOpenBurgerPopup={handelOpenBurgerPopup}
-                isLoading={isLoading}
-              />
-            }
-          />
-          <Route
-            path={AppRoute.SavedMovies}
-            element={
-              <SavedMovies
-                onOpenBurgerPopup={handelOpenBurgerPopup}
-                isLoading={isLoading}
-              />
-            }
-          />
-          <Route
-            path={AppRoute.Profile}
-            element={<Profile onOpenBurgerPopup={handelOpenBurgerPopup} />}
-          />
-          <Route path={AppRoute.NotFound} element={<NotFound />} />
-        </Routes>
+        {isLoading ? (
+          <Preloader />
+        ) : (
+          <Routes>
+            <Route
+              path={AppRoute.Register}
+              element={<Register register={handelRegisterClick} />}
+            ></Route>
+            <Route
+              path={AppRoute.Login}
+              element={<Login login={handelLoginClick} />}
+            />
+            <Route
+              path={AppRoute.Main}
+              element={<Main isLoggedIn={loggedIn} onOpenBurgerPopup={handelOpenBurgerPopup}/>}
+            />
+            <Route
+              path={AppRoute.Movies}
+              element={
+                <ProtectedRouteElement
+                  component={Movies}
+                  isLoggedIn={loggedIn}
+                  onOpenBurgerPopup={handelOpenBurgerPopup}
+                  isLoading={isLoading}
+                  movies={movies}
+                />
+              }
+            />
+            <Route
+              path={AppRoute.SavedMovies}
+              element={
+                <ProtectedRouteElement
+                  component={SavedMovies}
+                  isLoggedIn={loggedIn}
+                  onOpenBurgerPopup={handelOpenBurgerPopup}
+                  isLoading={isLoading}
+                />
+              }
+            />
+            <Route
+              path={AppRoute.Profile}
+              element={
+                <ProtectedRouteElement
+                  component={Profile}
+                  isLoggedIn={loggedIn}
+                  onOpenBurgerPopup={handelOpenBurgerPopup}
+                  currentUser={currentUser}
+                  onUpdateUser={handelUpdateUserClick}
+                  updateUserError={updateUserError}
+                  setUpdateUserError={setUpdateUserError}
+                />
+              }
+            />
+            <Route path={AppRoute.NotFound} element={<NotFound />} />
+          </Routes>
+        )}
         <InfoTooltip
           isOpen={isOpenInfoTooltip}
           onClose={closeAllPopups}
           registerResponse={registerResponse}
         />
+        <BurgerPopup isOpen={isOpenBurgerPopup} onClose={closeBurgerPopup} />
       </div>
     </CurrentUserContext.Provider>
   );

@@ -5,7 +5,7 @@ import Layout from "../Layout/Layout";
 import Preloader from "../Preloader/Preloader"
 import { useState } from "react";
 
-function Movies({onOpenBurgerPopup, isLoading}) {
+function Movies({onOpenBurgerPopup, isLoading, movies}) {
   const [isLiked, setIsLiked] = useState(false)
 
   function handleLikeClick() {
@@ -22,7 +22,7 @@ function Movies({onOpenBurgerPopup, isLoading}) {
       <main className="movies">
         <SearchForm />
         {isLoading ? <Preloader /> : 
-          <MoviesCardList className={cardLikeButtonClassName} alt="кнопка: избранное" likeClick={handleLikeClick}/>}
+          <MoviesCardList className={cardLikeButtonClassName} alt="кнопка: избранное" likeClick={handleLikeClick} movies={movies}/>}
         </main>
     </Layout>
   );

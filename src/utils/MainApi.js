@@ -20,6 +20,19 @@ class Api {
       },
     }).then(this.__checkResponse);
   }
+
+  saveNewUserInfo(userInformaiton) {
+     return fetch(this._baseUrl + '/users/me', {
+       method: 'PATCH',
+       headers: {
+         Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+         'Content-Type': 'application/json'
+       },
+       body: JSON.stringify(userInformaiton)
+     })
+       .then(this.__checkResponse);
+   }
+
 }
 
 export const api = new Api({
