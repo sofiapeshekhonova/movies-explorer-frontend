@@ -9,7 +9,7 @@ import Profile from "../Profile/Profile";
 import NotFound from "../NotFound/NotFound";
 import {AppRoute} from "../../constants";
 import BurgerPopup from "../BurgerPopup/BurgerPopup";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {register, login} from "../../utils/Auth";
 import {api} from "../../utils/MainApi";
 import {apiMovies} from "../../utils/MoviesApi";
@@ -21,53 +21,66 @@ import Preloader from "../Preloader/Preloader";
 
 function App() {
   const [isOpenBurgerPopup, setisOpenBurgerPopup] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [loggedIn, isLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
-  const [movies, setMovies] = useState({})
+  const [movies, setMovies] = useState([]);
+  const [sortMovies, setSortMovies] = useState({});
+  const [visibleFilms, setVisibleFilms] = useState([]);
+  const [searchMovies, setSearchMovies] = useState([])
   const [isOpenInfoTooltip, setOpenInfoTooltip] = useState(false);
   const [updateUserError, setUpdateUserError] = useState("");
+  const [pageLoading, setPageloading] = useState(true);
+  const [activeCheckbox, setActiveCheckbox] = useState(false);
+  const [activeShowAllMovies, isActiveShowAllMovies] = useState(false);
+  const [allMoviesButton, setAllMoviesButton] = useState(false);
+  const [errorMovies, setErrorMovies] = useState("");
+  const [searchInputText, setSearchInputText] = useState("");
   const [registerResponse, isregisterResponse] = useState({
     status: false,
     text: "",
   });
-
+  const isMounted = useRef(false);
   const navigate = useNavigate();
   const token = localStorage.getItem("jwt");
+
   useEffect(() => {
-    // если у пользователя есть токен в localStorage,эта функция проверит валидность токена
     if (token) {
+      setIsLoading(true);      
       auth
         .checkToken(token)
         .then((res) => {
           if (res) {
             isLoggedIn(true);
-            setCurrentUser(res); //получаем данные пользователя
+            setCurrentUser(res); 
           }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [navigate, token]);
-
-  useEffect(() => {
-    if (token) {
-      isLoggedIn(true);
-      setIsLoading(true);
-      Promise.all([api.getUserInfo(), apiMovies.getMovies()])
-        .then(([user, movies]) => {
-          setCurrentUser(user);
-          setMovies(movies)
         })
         .catch((err) => {
           console.log(err);
         })
         .finally(() => setIsLoading(false));
     }
-  }, [token]);
+  }, [navigate, token]);
 
-  function handelRegisterClick(password, email, name) {
+  useEffect(() => {
+    if (token) {
+      isLoggedIn(true);
+      setPageloading(true);
+      Promise.all([api.getUserInfo(), apiMovies.getMovies()])
+        .then(([user, movies]) => {
+          setCurrentUser(user);
+          setMovies(movies);
+          navigate({ replace: false });
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .finally(() => setPageloading(false))
+    }
+  }, [navigate, token]);
+
+  function handleRegisterClick(password, email, name) {
+    setIsLoading(true);
     register(password, email, name)
       .then((res) => {
         if (res) {
@@ -75,8 +88,9 @@ function App() {
             status: true,
             text: "Вы успешно зарегистрировались!",
           });
-          navigate(AppRoute.Login, {replace: true});
+          handleLoginClick(password, email)
         }
+
       })
       .catch((res) => {
         if (res === "Ошибка 409") {
@@ -92,10 +106,15 @@ function App() {
           });
         }
       })
-      .finally(() => setOpenInfoTooltip(true));
+      .finally(() => {
+        setOpenInfoTooltip(true);
+        setIsLoading(false);
+      }
+      );
   }
 
-  function handelLoginClick(password, email) {
+  function handleLoginClick(password, email) {
+    setIsLoading(true);
     login(password, email)
       .then((data) => {
         localStorage.setItem("jwt", data.token);
@@ -116,10 +135,10 @@ function App() {
             text: res,
           });
         }
-      });
+      })
   }
 
-  function handelUpdateUserClick(value) {
+  function handleUpdateUserClick(value) {
     setIsLoading(true);
     api
     .saveNewUserInfo(value)
@@ -139,8 +158,17 @@ function App() {
     });
   }
 
+  function signOut() {
+    localStorage.removeItem('jwt');
+    navigate(AppRoute.Login);
+    isLoggedIn(false); 
+    setCurrentUser('');
+    localStorage.removeItem('filterMovies')
+    localStorage.removeItem('allMovies')
+  }
+
   useEffect(() => {
-    function handelEscape(evt) {
+    function handleEscape(evt) {
       if (evt.key === "Escape") {
         closeBurgerPopup();
       }
@@ -153,15 +181,15 @@ function App() {
     }
 
     document.addEventListener("mousedown", handleClosePopups);
-    document.addEventListener("keydown", handelEscape);
+    document.addEventListener("keydown", handleEscape);
 
     return () => {
-      document.removeEventListener("keydown", handelEscape);
+      document.removeEventListener("keydown", handleEscape);
       document.removeEventListener("mousedown", handleClosePopups);
     };
   }, []);
 
-  function handelOpenBurgerPopup() {
+  function handleOpenBurgerPopup() {
     setisOpenBurgerPopup(true);
   }
 
@@ -173,6 +201,61 @@ function App() {
     setOpenInfoTooltip(false);
   }
 
+   // function handleSortMovies(movies) {
+  //   const sortMovies = movies.filter(movie => movie.duration <= 40);
+  //   return setSortMovies(sortMovies)
+  // }
+
+  function handleSortClick() {
+    setActiveCheckbox(!activeCheckbox)
+  }
+
+  
+  function handleSearchMovies(movie) {
+    setErrorMovies("")
+    let filterMovies = movies.filter(item => item.nameRU.toLowerCase().includes(movie.toLowerCase()));
+    if (filterMovies.length !== 0) {
+      localStorage.setItem('filterMovies', JSON.stringify(filterMovies));
+      setVisibleFilms(filterMovies)
+      //localStorage.setItem('inputText', JSON.stringify(movie));
+      localStorage.setItem('inputMovieName', movie);
+    } else {
+      setErrorMovies("Фильмы не найдены")
+  
+    }
+  }
+  
+  useEffect(() => { // эффект, который достает найденные фильмы из хранилища
+    if (localStorage.getItem('filterMovies')) { 
+        const filterFilms = JSON.parse(localStorage.getItem('filterMovies'));
+        const inputText = JSON.parse(localStorage.getItem('inputText'));
+        setSearchInputText(inputText);
+        setVisibleFilms(filterFilms);
+        setAllMoviesButton(true);
+    } else if (localStorage.getItem('allMovies')) {
+      const allFilms = JSON.parse(localStorage.getItem('allMovies'));  
+      setVisibleFilms(allFilms);
+    } else {
+      setVisibleFilms('')
+    }
+}, [movies, allMoviesButton])
+
+
+  useEffect(() => {
+    if (activeShowAllMovies === true) {
+      localStorage.removeItem('filterMovies')
+      let allMovies = movies
+      console.log(allMovies)
+      localStorage.setItem('allMovies', JSON.stringify(allMovies));
+      setVisibleFilms(allMovies);
+      console.log(allMovies)
+      window.scrollTo(0, 0);
+      isActiveShowAllMovies(false);
+      setAllMoviesButton(false);
+      setErrorMovies('');
+    } 
+  },[activeShowAllMovies, movies])
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -182,26 +265,38 @@ function App() {
           <Routes>
             <Route
               path={AppRoute.Register}
-              element={<Register register={handelRegisterClick} />}
+              element={<Register register={handleRegisterClick} />}
             ></Route>
             <Route
               path={AppRoute.Login}
-              element={<Login login={handelLoginClick} />}
+              element={<Login login={handleLoginClick} />}
             />
             <Route
               path={AppRoute.Main}
-              element={<Main isLoggedIn={loggedIn} onOpenBurgerPopup={handelOpenBurgerPopup}/>}
+              element={<Main isLoggedIn={loggedIn} onOpenBurgerPopup={handleOpenBurgerPopup}/>}
             />
             <Route
               path={AppRoute.Movies}
               element={
+                <>
+                {token && pageLoading ? <Preloader /> :
                 <ProtectedRouteElement
                   component={Movies}
+                  errorMovies={errorMovies}
                   isLoggedIn={loggedIn}
-                  onOpenBurgerPopup={handelOpenBurgerPopup}
+                  onOpenBurgerPopup={handleOpenBurgerPopup}
                   isLoading={isLoading}
-                  movies={movies}
+                  movies={visibleFilms}
+                  handleSortClick={handleSortClick}
+                  activeCheckbox={activeCheckbox}
+                  handleSearchMovies={handleSearchMovies}
+                  isActiveShowAllMovies={isActiveShowAllMovies}
+                  allMoviesButton={allMoviesButton}
+                  setAllMoviesButton={setAllMoviesButton}
+                  setSearchInputText={searchInputText}
                 />
+                }
+                </>
               }
             />
             <Route
@@ -210,7 +305,7 @@ function App() {
                 <ProtectedRouteElement
                   component={SavedMovies}
                   isLoggedIn={loggedIn}
-                  onOpenBurgerPopup={handelOpenBurgerPopup}
+                  onOpenBurgerPopup={handleOpenBurgerPopup}
                   isLoading={isLoading}
                 />
               }
@@ -221,11 +316,12 @@ function App() {
                 <ProtectedRouteElement
                   component={Profile}
                   isLoggedIn={loggedIn}
-                  onOpenBurgerPopup={handelOpenBurgerPopup}
+                  onOpenBurgerPopup={handleOpenBurgerPopup}
                   currentUser={currentUser}
-                  onUpdateUser={handelUpdateUserClick}
+                  onUpdateUser={handleUpdateUserClick}
                   updateUserError={updateUserError}
                   setUpdateUserError={setUpdateUserError}
+                  signOut={signOut}
                 />
               }
             />

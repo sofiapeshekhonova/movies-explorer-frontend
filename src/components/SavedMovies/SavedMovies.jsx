@@ -11,7 +11,12 @@ function SavedMovies({onOpenBurgerPopup, isLoading}) {
       <main className="saved-movies">
         <SearchForm />
         {isLoading ? <Preloader /> : 
-          <MoviesCardList className="movies-card__dislike" alt="кнопка: удалить фильм"/>}
+          <MoviesCardList 
+          className="movies-card__dislike" 
+          alt="кнопка: удалить фильм"
+          buttonClassName={"movies-card-list__button"}
+          />
+        }
         </main>
     </Layout>
   );

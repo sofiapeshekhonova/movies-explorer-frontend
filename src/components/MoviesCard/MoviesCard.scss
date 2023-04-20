@@ -2,14 +2,19 @@
   list-style: none;
   padding: 0;
   max-width: 364px;
+  width: 100%;
+  // max-height: 203px;
+  // height: 100%;
   border-radius: 6px;
   background-color: var(--white);
   box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.08);
   @media screen and (max-width: 895px) {
     max-width: 339px;
+    // max-height: 190px;
   }
   @media screen and (max-width: 495px) {
     max-width: 300px;
+    // max-height: 168px;
   } 
 }
 
@@ -26,8 +31,16 @@
 
 .movies-card__image {
   width: 100%;
+  min-height: 203px;
   background-repeat: no-repeat;
+  background-position: center;
   cursor: pointer;
+  @media screen and (max-width: 895px) {
+    min-height: 190px;
+  }
+  @media screen and (max-width: 495px) {
+    min-height: 168px;
+  } 
 }
 
 .movies-card__info {

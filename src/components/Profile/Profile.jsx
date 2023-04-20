@@ -5,7 +5,7 @@ import Layout from "../Layout/Layout";
 import { useEffect, useState } from "react";
 import ValidationForm from "../../hooks/ValidationForm";
 
-function Profile({onOpenBurgerPopup, currentUser, onUpdateUser, updateUserError, setUpdateUserError}) {
+function Profile({onOpenBurgerPopup, currentUser, onUpdateUser, updateUserError, setUpdateUserError, signOut}) {
   const {handleChange, errors, formValue, setFormValue } = ValidationForm();
   const [isInputEdit, setIsInputEdit] = useState(true);
   
@@ -79,7 +79,7 @@ function Profile({onOpenBurgerPopup, currentUser, onUpdateUser, updateUserError,
               Редактировать
             </button>
             <Link to={AppRoute.Main} className="profile__link text-hover">
-            <button className="profile__button" type="button" aria-label="">
+            <button className="profile__button" type="button" aria-label="" onClick={signOut}>
               Выйти из аккаунта
             </button>
           </Link>
