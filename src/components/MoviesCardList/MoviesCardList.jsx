@@ -5,6 +5,7 @@ import MoviesEmpty from "../MoviesEmpty/MoviesEmpty";
 
 function MoviesCardList(props) {
   const {
+    pageSavedMovie,
     movies,
     buttonClassName,
     isActiveShowAllMovies,
@@ -14,11 +15,9 @@ function MoviesCardList(props) {
     setCheckbox,
   } = props;
   const [countCard, setCountCard] = useState(12);
-  const buttonAllMoviesClassName = `movies-card-list__button movies-card-list__button-all ${
-    !allMoviesButton && "movies-card-list__button-all_disabled"
-  }`;
-
-  const buttonAllMovies = `movies-card-list__button movies-card-list__button-all`;
+  const buttonAllMoviesClassName = pageSavedMovie ? "movies-card-list__button-all_disabled" :
+  `movies-card-list__button movies-card-list__button-all ${!allMoviesButton && "movies-card-list__button-all_disabled"}`;
+  const buttonAllMovies = pageSavedMovie ? "movies-card-list__button-all_disabled" :`movies-card-list__button movies-card-list__button-all`;
 
   useEffect(() => {
     let timer;
@@ -97,7 +96,7 @@ function MoviesCardList(props) {
         {movies.length !== 0 ? 
           <><ul className="movies-card-list__list">
               {movies.slice(0, countCard).map((film, index) => {
-                return ((index < countCard) ? <MoviesCard key={film.id} film={film} props={props} /> : "Фильмы не найдены")
+                return ((index < countCard) ? <MoviesCard key={pageSavedMovie ? film.movieId : film.id} film={film} props={props} /> : "Фильмы не найдены")
               })}
             </ul>
             {movies.length > countCard && (
@@ -112,9 +111,9 @@ function MoviesCardList(props) {
               aria-label="Кнопка: все фильмы"
               type="button"
               onClick={handleShowAllMovies}>Все фильмы</button>
-          </> : <MoviesEmpty text={"Начните поиск"} className={buttonAllMovies} onClick={handleShowAllMovies}/>
+          </> : <MoviesEmpty text={pageSavedMovie ? "Фильмов в избранном нет" :"Начните поиск"} className={buttonAllMovies} onClick={handleShowAllMovies}/>
         }
-      </> : <MoviesEmpty text={"Фильмы не найдены"} className={buttonAllMoviesClassName} onClick={handleShowAllMovies}/>
+      </> : <MoviesEmpty text={pageSavedMovie ? "Фильмов в избранном нет" :"Фильмы не найдены"} className={buttonAllMoviesClassName} onClick={handleShowAllMovies}/>
 
       }
     </section>

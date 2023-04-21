@@ -23,7 +23,7 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 30px;
   }
-  @media screen and (max-width: 495px) {
+  @media screen and (max-width: 624px) {
     grid-template-columns: 1fr;
     gap: 14px;
     margin-top: 40px;

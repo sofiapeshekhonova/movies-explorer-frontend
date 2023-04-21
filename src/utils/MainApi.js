@@ -33,26 +33,26 @@ class Api {
        .then(this.__checkResponse);
    }
 
-   saveMovies(card) {
+   saveMovies(movie) {
     const token = localStorage.getItem('jwt');
-    return fetch(this._baseUrl, {
+    return fetch(`${this._baseUrl}/movies`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,
       },
       body: JSON.stringify({
-        country: card.country,
-        director: card.director,
-        duration: card.duration,
-        year: card.year,
-        description: card.description,
-        image: `https://api.nomoreparties.co${card.image.url}`,
-        trailerLink: card.trailerLink,
-        thumbnail: `https://api.nomoreparties.co${card.image.formats.thumbnail.url}`,
-        movieId: card.id,
-        nameEN: card.nameEN,
-        nameRU: card.nameRU,
+        country: movie.country,
+        director: movie.director,
+        duration: movie.duration,
+        year: movie.year,
+        description: movie.description,
+        image: `https://api.nomoreparties.co${movie.image.url}`,
+        trailerLink: movie.trailerLink,
+        thumbnail: `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`,
+        movieId: movie.id,
+        nameEN: movie.nameEN,
+        nameRU: movie.nameRU,
       })
     }).then(this.__checkResponse);
   }

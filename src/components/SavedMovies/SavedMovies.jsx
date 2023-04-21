@@ -15,6 +15,7 @@ function SavedMovies(props) {
     setFormValue,
     handleSaveMovie,
   } = props
+  //console.log(movies)
   return (
     <Layout className="header" title="Main" isLoggedIn card onOpenBurgerPopup={onOpenBurgerPopup} page>
       <main className="saved-movies">
@@ -22,7 +23,7 @@ function SavedMovies(props) {
         {isLoading ? <Preloader /> : 
           <MoviesCardList 
           pageSavedMovie={true}
-          movies={mock}
+          movies={movies}
           buttonClassName={"movies-card-list__button"}
           />
         }

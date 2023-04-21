@@ -199,11 +199,11 @@ function App() {
     setOpenInfoTooltip(false);
   }
   
-  function handleSaveMovie(movie) { 
-    api.saveMovie(movie)
+  function handleSaveMovie(movie, setMovieId) { 
+    api.saveMovies(movie)
         .then((movie) => {
             setSavedMovies(savedMovies.concat(movie))
-            console.log(movie)
+            setMovieId(movie._id)
             // setCardId(res._id);
             // setSavedFilms(savedFilms.concat(res));
             // setCopyOfSavedFilms(copyOfSavedFilms.concat(res));
@@ -212,7 +212,31 @@ function App() {
           console.log(err);
             //setSearchError(err);
         })
-}
+  }
+
+  useEffect(() => {
+    if (loggedIn) {
+      api.getSavedMovies()
+    .then((res) => {
+//console.log(res)
+      setSavedMovies(res)
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+    }
+  }, [loggedIn]);
+ 
+  // function getSavedMovies() {
+  //   api.getSavedMovies()
+  //   .then((res) => 
+  //   console.log(res)
+  //   )
+  //   .catch((err) => {
+  //     console.log(err);
+  //   });
+  // }
+
   function handleCheckboxClick(checkbox, movie) {
     setErrorMovies("")
 
@@ -324,6 +348,8 @@ function App() {
             <Route
               path={AppRoute.SavedMovies}
               element={
+                <>
+                {token && pageLoading ? <Preloader /> :
                 <ProtectedRouteElement
                   component={SavedMovies}
                   isLoggedIn={loggedIn}
@@ -338,12 +364,14 @@ function App() {
                   //isLoggedIn={loggedIn}
                  // onOpenBurgerPopup={handleOpenBurgerPopup}
                  // isLoading={isLoading}
-                 // movies={visibleFilms}
+                  movies={savedMovies}
                   handleCheckboxClick={handleCheckboxClick}
                   isActiveShowAllMovies={isActiveShowAllMovies}
                   allMoviesButton={allMoviesButton}
                   setAllMoviesButton={setAllMoviesButton}
                 />
+              }
+              </>
               }
             />
             <Route
