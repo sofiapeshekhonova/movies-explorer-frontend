@@ -1,4 +1,4 @@
-import {Routes, Route, useNavigate, useLocation} from "react-router-dom";
+import {Routes, Route, useNavigate} from "react-router-dom";
 import Main from "../Main/Main";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import "./App.scss";
@@ -34,6 +34,7 @@ function App() {
   const [errorMovies, setErrorMovies] = useState("");
   const [formValue, setFormValue] = useState("");  
   const [checkbox, setCheckbox] = useState(false);
+  const [savedMovies, setSavedMovies] = useState([]);
   const [registerResponse, isregisterResponse] = useState({
     status: false,
     text: "",
@@ -197,7 +198,21 @@ function App() {
   function closeAllPopups() {
     setOpenInfoTooltip(false);
   }
-
+  
+  function handleSaveMovie(movie) { 
+    api.saveMovie(movie)
+        .then((movie) => {
+            setSavedMovies(savedMovies.concat(movie))
+            console.log(movie)
+            // setCardId(res._id);
+            // setSavedFilms(savedFilms.concat(res));
+            // setCopyOfSavedFilms(copyOfSavedFilms.concat(res));
+        })
+        .catch((err) => {
+          console.log(err);
+            //setSearchError(err);
+        })
+}
   function handleCheckboxClick(checkbox, movie) {
     setErrorMovies("")
 
@@ -210,7 +225,6 @@ function App() {
     localStorage.setItem('inputMovieName', movie);
     //localStorage.setItem('sortAllMovies', JSON.stringify(sortAllMovies))
     //localStorage.setItem('sortFilterMoviesMovies', JSON.stringify(sortFilteredMoviesMovies))
-
 
     if (filteredMovies.length !== 0 && !checkbox) {
       setVisibleFilms(filteredMovies)
@@ -288,6 +302,7 @@ function App() {
                 {token && pageLoading ? <Preloader /> :
                 <ProtectedRouteElement
                   component={Movies}
+                  handleSaveMovie={handleSaveMovie}
                   setFormValue={setFormValue}
                   checkbox={checkbox}
                   formValue={formValue}
@@ -314,6 +329,20 @@ function App() {
                   isLoggedIn={loggedIn}
                   onOpenBurgerPopup={handleOpenBurgerPopup}
                   isLoading={isLoading}
+                  handleSaveMovie={handleSaveMovie}
+                  setFormValue={setFormValue}
+                  checkbox={checkbox}
+                  formValue={formValue}
+                  setCheckbox={setCheckbox}
+                  errorMovies={errorMovies}
+                  //isLoggedIn={loggedIn}
+                 // onOpenBurgerPopup={handleOpenBurgerPopup}
+                 // isLoading={isLoading}
+                 // movies={visibleFilms}
+                  handleCheckboxClick={handleCheckboxClick}
+                  isActiveShowAllMovies={isActiveShowAllMovies}
+                  allMoviesButton={allMoviesButton}
+                  setAllMoviesButton={setAllMoviesButton}
                 />
               }
             />

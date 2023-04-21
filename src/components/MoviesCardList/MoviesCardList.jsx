@@ -11,7 +11,7 @@ function MoviesCardList(props) {
     allMoviesButton,
     errorMovies,
     setFormValue,
-    setCheckbox
+    setCheckbox,
   } = props;
   const [countCard, setCountCard] = useState(12);
   const buttonAllMoviesClassName = `movies-card-list__button movies-card-list__button-all ${

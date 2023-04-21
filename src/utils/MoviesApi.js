@@ -22,6 +22,7 @@ class Api {
   }
 }
 
+
 export const apiMovies = new Api({
   baseUrl: 'https://api.nomoreparties.co/beatfilm-movies'
 });

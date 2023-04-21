@@ -14,32 +14,24 @@ function Movies(props) {
     errorMovies, 
     setCheckbox,
     setFormValue,
+    handleSaveMovie,
   } = props
 
-  const [isLiked, setIsLiked] = useState(false)
-  function handleLikeClick() {
-    setIsLiked(!isLiked);
-    console.log('click')
-  }
-
-  const cardLikeButtonClassName = `movies-card__like ${
-    isLiked ? 'movies-card__like_active' : ''
-  }`;
   
   return (
     <Layout className="header" title="Main" isLoggedIn page onOpenBurgerPopup={onOpenBurgerPopup}>
       <main className="movies">
-        <SearchForm 
-          props={props}/>
+        <SearchForm props={props}/>
         {isLoading ? <Preloader /> : 
           <MoviesCardList
+            pageSavedMovie={false}
             setCheckbox={setCheckbox}
+            handleSaveMovie={handleSaveMovie}
             errorMovies={errorMovies}
             isActiveShowAllMovies={isActiveShowAllMovies}
             allMoviesButton={allMoviesButton}
-            className={cardLikeButtonClassName} 
-            alt="кнопка: избранное" 
-            likeClick={handleLikeClick} 
+           // className={cardLikeButtonClassName} 
+           // likeClick={handleLikeClick} 
             movies={movies}
             buttonClassName={"movies-card-list__button movies-card-list__button_active button-hover"}
             setFormValue={setFormValue}
