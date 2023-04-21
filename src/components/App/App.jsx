@@ -9,7 +9,7 @@ import Profile from "../Profile/Profile";
 import NotFound from "../NotFound/NotFound";
 import {AppRoute} from "../../constants";
 import BurgerPopup from "../BurgerPopup/BurgerPopup";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import {register, login} from "../../utils/Auth";
 import {api} from "../../utils/MainApi";
 import {apiMovies} from "../../utils/MoviesApi";
@@ -25,22 +25,19 @@ function App() {
   const [loggedIn, isLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const [movies, setMovies] = useState([]);
-  const [sortMovies, setSortMovies] = useState({});
   const [visibleFilms, setVisibleFilms] = useState([]);
-  const [searchMovies, setSearchMovies] = useState([])
   const [isOpenInfoTooltip, setOpenInfoTooltip] = useState(false);
   const [updateUserError, setUpdateUserError] = useState("");
   const [pageLoading, setPageloading] = useState(true);
-  const [activeCheckbox, setActiveCheckbox] = useState(false);
   const [activeShowAllMovies, isActiveShowAllMovies] = useState(false);
   const [allMoviesButton, setAllMoviesButton] = useState(false);
   const [errorMovies, setErrorMovies] = useState("");
-  const [searchInputText, setSearchInputText] = useState("");
+  const [formValue, setFormValue] = useState("");  
+  const [checkbox, setCheckbox] = useState(false);
   const [registerResponse, isregisterResponse] = useState({
     status: false,
     text: "",
   });
-  const isMounted = useRef(false);
   const navigate = useNavigate();
   const token = localStorage.getItem("jwt");
 
@@ -201,37 +198,47 @@ function App() {
     setOpenInfoTooltip(false);
   }
 
-   // function handleSortMovies(movies) {
-  //   const sortMovies = movies.filter(movie => movie.duration <= 40);
-  //   return setSortMovies(sortMovies)
-  // }
-
-  function handleSortClick() {
-    setActiveCheckbox(!activeCheckbox)
-  }
-
-  
-  function handleSearchMovies(movie) {
+  function handleCheckboxClick(checkbox, movie) {
     setErrorMovies("")
-    let filterMovies = movies.filter(item => item.nameRU.toLowerCase().includes(movie.toLowerCase()));
-    if (filterMovies.length !== 0) {
-      localStorage.setItem('filterMovies', JSON.stringify(filterMovies));
-      setVisibleFilms(filterMovies)
-      //localStorage.setItem('inputText', JSON.stringify(movie));
-      localStorage.setItem('inputMovieName', movie);
-    } else {
+
+    let filteredMovies = movies.filter(item => item.nameRU.toLowerCase().includes(movie.toLowerCase()));
+    let sortAllMovies = movies.filter(movie => movie.duration <= 40);
+    let sortFilteredMoviesMovies = filteredMovies.filter(movie => movie.duration <= 40);
+
+    localStorage.setItem('filterMovies', JSON.stringify(filteredMovies));
+    localStorage.setItem('checkbox', JSON.stringify(checkbox))
+    localStorage.setItem('inputMovieName', movie);
+    //localStorage.setItem('sortAllMovies', JSON.stringify(sortAllMovies))
+    //localStorage.setItem('sortFilterMoviesMovies', JSON.stringify(sortFilteredMoviesMovies))
+
+
+    if (filteredMovies.length !== 0 && !checkbox) {
+      setVisibleFilms(filteredMovies)
+    } else if (filteredMovies.length !== 0 && checkbox && sortFilteredMoviesMovies.length !==0) {
+      setVisibleFilms(sortFilteredMoviesMovies);
+    } else if (filteredMovies.length !== 0 && checkbox && sortFilteredMoviesMovies.length === 0) {
       setErrorMovies("Фильмы не найдены")
-  
+    } else if (filteredMovies.length === 0) {
+      setErrorMovies("Фильмы не найдены")
+    } else if (movie.length === 0) {
+      setVisibleFilms(movies);
+    } else if(movie.length === 0 && !checkbox) {
+      setVisibleFilms(sortAllMovies);
     }
   }
   
-  useEffect(() => { // эффект, который достает найденные фильмы из хранилища
-    if (localStorage.getItem('filterMovies')) { 
-        const filterFilms = JSON.parse(localStorage.getItem('filterMovies'));
-        const inputText = JSON.parse(localStorage.getItem('inputText'));
-        setSearchInputText(inputText);
-        setVisibleFilms(filterFilms);
-        setAllMoviesButton(true);
+  // localStorage.getItem('sortAllMovies')
+  // localStorage.getItem('sortFilterMoviesMovies')
+  useEffect(() => { 
+    if (localStorage.getItem('filterMovies') && localStorage.getItem('checkbox')) { 
+      const inputMovieName = localStorage.getItem('inputMovieName')
+      //const filterFilms = JSON.parse(localStorage.getItem('filterMovies'));
+      const checkbox = JSON.parse(localStorage.getItem('checkbox'));
+      handleCheckboxClick(checkbox, inputMovieName);
+      //setVisibleFilms(filterFilms);
+      setFormValue(inputMovieName);
+      setAllMoviesButton(true);
+      setCheckbox(checkbox)
     } else if (localStorage.getItem('allMovies')) {
       const allFilms = JSON.parse(localStorage.getItem('allMovies'));  
       setVisibleFilms(allFilms);
@@ -241,14 +248,13 @@ function App() {
 }, [movies, allMoviesButton])
 
 
-  useEffect(() => {
+  useEffect(() => { //при нажатии на кнопку "все фильмы" 
     if (activeShowAllMovies === true) {
-      localStorage.removeItem('filterMovies')
+      localStorage.removeItem('filterMovies');
+      localStorage.removeItem('inputMovieName');
       let allMovies = movies
-      console.log(allMovies)
       localStorage.setItem('allMovies', JSON.stringify(allMovies));
       setVisibleFilms(allMovies);
-      console.log(allMovies)
       window.scrollTo(0, 0);
       isActiveShowAllMovies(false);
       setAllMoviesButton(false);
@@ -282,18 +288,19 @@ function App() {
                 {token && pageLoading ? <Preloader /> :
                 <ProtectedRouteElement
                   component={Movies}
+                  setFormValue={setFormValue}
+                  checkbox={checkbox}
+                  formValue={formValue}
+                  setCheckbox={setCheckbox}
                   errorMovies={errorMovies}
                   isLoggedIn={loggedIn}
                   onOpenBurgerPopup={handleOpenBurgerPopup}
                   isLoading={isLoading}
                   movies={visibleFilms}
-                  handleSortClick={handleSortClick}
-                  activeCheckbox={activeCheckbox}
-                  handleSearchMovies={handleSearchMovies}
+                  handleCheckboxClick={handleCheckboxClick}
                   isActiveShowAllMovies={isActiveShowAllMovies}
                   allMoviesButton={allMoviesButton}
                   setAllMoviesButton={setAllMoviesButton}
-                  setSearchInputText={searchInputText}
                 />
                 }
                 </>

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { AppRoute } from "../../constants";
 import LoginAndRegister from "../LoginAndRegister/LoginAndRegister";
 import LoginAndRegisterForm from "../LoginAndRegisterForm/LoginAndRegisterForm";
@@ -7,10 +6,8 @@ import ValidationForm from "../../hooks/ValidationForm";
 
 function Register({register}) {
   const {handleChange, errors, formValue } = ValidationForm();
-
   const buttonDisables = !(errors.email === "" && errors.password === "" && errors.name === "");
   const buttonClassName = buttonDisables ? "form__button form__button_disabled" : "form__button button-hover";
-
   
   function handelSubmit(e) {
     e.preventDefault();

@@ -5,21 +5,18 @@ import Layout from "../Layout/Layout";
 import Preloader from "../Preloader/Preloader"
 import { useState } from "react";
 
-function Movies(
-  {onOpenBurgerPopup, 
+function Movies(props) {
+  const {onOpenBurgerPopup, 
     isLoading, 
     movies, 
-    handleSortClick, 
-    activeCheckbox, 
-    handleSearchMovies, 
     isActiveShowAllMovies, 
     allMoviesButton,
-    setAllMoviesButton,
     errorMovies, 
-    setSearchInputText,
-    handleShowAllMovies}) {
-  const [isLiked, setIsLiked] = useState(false)
+    setCheckbox,
+    setFormValue,
+  } = props
 
+  const [isLiked, setIsLiked] = useState(false)
   function handleLikeClick() {
     setIsLiked(!isLiked);
     console.log('click')
@@ -33,21 +30,19 @@ function Movies(
     <Layout className="header" title="Main" isLoggedIn page onOpenBurgerPopup={onOpenBurgerPopup}>
       <main className="movies">
         <SearchForm 
-        setAllMoviesButton={setAllMoviesButton}
-        handleSortClick={handleSortClick} 
-        activeCheckbox={activeCheckbox} 
-        setSearchInputText={setSearchInputText}
-        handleSearchMovies={handleSearchMovies}/>
+          props={props}/>
         {isLoading ? <Preloader /> : 
           <MoviesCardList
-          errorMovies={errorMovies}
-          isActiveShowAllMovies={isActiveShowAllMovies}
+            setCheckbox={setCheckbox}
+            errorMovies={errorMovies}
+            isActiveShowAllMovies={isActiveShowAllMovies}
+            allMoviesButton={allMoviesButton}
             className={cardLikeButtonClassName} 
             alt="кнопка: избранное" 
             likeClick={handleLikeClick} 
             movies={movies}
             buttonClassName={"movies-card-list__button movies-card-list__button_active button-hover"}
-            allMoviesButton={allMoviesButton}
+            setFormValue={setFormValue}
           /> 
         }
         </main>

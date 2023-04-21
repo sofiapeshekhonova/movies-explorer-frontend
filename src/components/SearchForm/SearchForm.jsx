@@ -1,37 +1,36 @@
 import "./SearchForm.scss";
-import ValidationForm from "../../hooks/ValidationForm";
-import { useEffect, useState } from "react";
 
-function SearchForm({handleSortClick, activeCheckbox, handleSearchMovies, setAllMoviesButton}) {
-const [formValue, setFormValue] = useState("");  
+function SearchForm({props }) {
+  const {handleCheckboxClick, setAllMoviesButton, checkbox,setCheckbox, formValue, setFormValue} = props
+  
   const switcherClassName = `search-form__checkbox-switcher ${
-    activeCheckbox && "search-form__checkbox-switcher_active"
+    checkbox && "search-form__checkbox-switcher_active"
   }`;
   const buttonCheckboxClassName = `search-form__checkbox-button ${
-    activeCheckbox && "search-form__checkbox-button_active"
+    checkbox && "search-form__checkbox-button_active"
   }`;
 
   // let buttonDisables = !(errors.movie === "");
   // let buttonClassName = buttonDisables ? " search-form__button search-form__button_disabled"  : "search-form__button button-hover";
 
-  useEffect(() => { // эффект, который устанавливает значения полей input и checkbox, если они сохранены в памяти
-    if (localStorage.getItem('inputMovieName')) {
-      setFormValue(localStorage.getItem('inputMovieName'));  
-  }  
-}, [])
+//   useEffect(() => { // эффект, который устанавливает значения полей input и checkbox, если они сохранены в памяти
+//     if (localStorage.getItem('inputMovieName')) {
+//       setFormValue(localStorage.getItem('inputMovieName'));  
+//   }  
+// }, [])
 
-  // function handleChange(e) {
-  //   e.preventDefault();
-  //   handleSortClick();
-  // }
+  function handleCheckboxChange() {
+    handleCheckboxClick(!checkbox, formValue);
+    setCheckbox(!checkbox)
+  }
 
   function handleChange(e) {
     setFormValue(e.target.value);
   }
-  
+
   function handelSortSubmit(e) {
     e.preventDefault();
-    handleSearchMovies(formValue);
+    handleCheckboxClick(checkbox, formValue);
     setAllMoviesButton(true);
   }
 
@@ -63,7 +62,8 @@ const [formValue, setFormValue] = useState("");
         <input
           className={switcherClassName}
           type="checkbox"
-          //onClick={handleChange}
+          checked={checkbox}
+          onChange={handleCheckboxChange}
         />
         <button
           className={buttonCheckboxClassName}

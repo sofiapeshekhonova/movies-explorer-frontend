@@ -10,6 +10,8 @@ function MoviesCardList(props) {
     isActiveShowAllMovies,
     allMoviesButton,
     errorMovies,
+    setFormValue,
+    setCheckbox
   } = props;
   const [countCard, setCountCard] = useState(12);
   const buttonAllMoviesClassName = `movies-card-list__button movies-card-list__button-all ${
@@ -51,6 +53,8 @@ function MoviesCardList(props) {
 
   function handleShowAllMovies() {
     isActiveShowAllMovies(true);
+    setFormValue("");
+    setCheckbox(false)
   }
   //   const handleChangeWidthScreen = () => {
   //     if (window.innerWidth < 377) {
