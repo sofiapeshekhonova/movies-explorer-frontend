@@ -17,7 +17,7 @@
 .movies-card__container {
   cursor: pointer;
   @media screen and (max-width: 895px) {
-    padding: 10px 14px 14px;
+    padding: 0 14px 14px;
   }
 }
 
@@ -27,15 +27,15 @@
 
 .movies-card__image {
   width: 100%;
-  min-height: 203px;
+  height: 203px;
   background-repeat: no-repeat;
   background-position: center;
   cursor: pointer;
   @media screen and (max-width: 895px) {
-    min-height: 190px;
+    height: 190px;
   }
   @media screen and (max-width: 495px) {
-    min-height: 168px;
+    height: 168px;
   } 
 }
 
@@ -122,7 +122,6 @@
   color: var(--grey-dark);
   margin: 0;
   @media screen and (max-width: 895px) {
-    margin-top: 15px;
     padding: 0;
   }
   @media screen and (max-width: 495px) {

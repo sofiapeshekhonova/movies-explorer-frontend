@@ -17,11 +17,11 @@ function Profile({onOpenBurgerPopup, currentUser, onUpdateUser, updateUserError,
 
   function handleSubmit(e) {
     e.preventDefault();
-    // Передаём значения управляемых компонентов во внешний обработчик
     onUpdateUser({
       name: formValue.name,
       email: formValue.email,
     });
+    setIsInputEdit(!isInputEdit)
   }
 
   useEffect(() => {

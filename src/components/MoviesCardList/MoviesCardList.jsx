@@ -13,6 +13,7 @@ function MoviesCardList(props) {
     errorMovies,
     setFormValue,
     setCheckbox,
+    savedMovies
   } = props;
   const [countCard, setCountCard] = useState(12);
   const buttonAllMoviesClassName = pageSavedMovie ? "movies-card-list__button-all_disabled" :
@@ -90,13 +91,21 @@ function MoviesCardList(props) {
   //     setVisibleCards(cards);
   //   }
 
+  function getSavedMovieCard(savedMovies, card) {
+//console.log(savedMovies)
+    return savedMovies.find((savedMovie) => savedMovie.movieId === card.id);
+  }
+
   return (
     <section className="movies-card-list">
       {!errorMovies ? <>
         {movies.length !== 0 ? 
           <><ul className="movies-card-list__list">
               {movies.slice(0, countCard).map((film, index) => {
-                return ((index < countCard) ? <MoviesCard key={pageSavedMovie ? film.movieId : film.id} film={film} props={props} /> : "Фильмы не найдены")
+                return ((index < countCard) ? <MoviesCard 
+                saved={pageSavedMovie ? "" : getSavedMovieCard(savedMovies, film)}
+                savedMovies={savedMovies}
+                key={pageSavedMovie ? film.movieId : film.id} film={film} props={props} /> : "Фильмы не найдены")
               })}
             </ul>
             {movies.length > countCard && (

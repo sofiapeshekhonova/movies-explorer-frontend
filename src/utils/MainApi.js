@@ -67,6 +67,17 @@ class Api {
       },
     }).then(this.__checkResponse);
   }
+
+  deleteMovies(movieId) {
+    const token = localStorage.getItem('jwt');
+    return fetch(this._baseUrl + '/movies/' + movieId, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    }).then(this.__checkResponse);
+  }
 }
 
 export const api = new Api({

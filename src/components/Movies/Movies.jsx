@@ -14,6 +14,8 @@ function Movies(props) {
     setCheckbox,
     setFormValue,
     handleSaveMovie,
+    savedMovies,
+    handleDeleteMovies,
   } = props
 
   return (
@@ -31,6 +33,8 @@ function Movies(props) {
             movies={movies}
             buttonClassName={"movies-card-list__button movies-card-list__button_active button-hover"}
             setFormValue={setFormValue}
+            savedMovies={savedMovies}
+            handleDeleteMovies={handleDeleteMovies}
           /> 
         }
         </main>

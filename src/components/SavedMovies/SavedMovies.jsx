@@ -8,6 +8,7 @@ function SavedMovies(props) {
   const {onOpenBurgerPopup, 
     isLoading, 
     movies, 
+    handleDeleteMovies,
     isActiveShowAllMovies, 
     allMoviesButton,
     errorMovies, 
@@ -23,6 +24,7 @@ function SavedMovies(props) {
         {isLoading ? <Preloader /> : 
           <MoviesCardList 
           pageSavedMovie={true}
+          handleDeleteMovies={handleDeleteMovies}
           movies={movies}
           buttonClassName={"movies-card-list__button"}
           />
