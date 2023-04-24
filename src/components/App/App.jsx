@@ -7,7 +7,7 @@ import Register from "../Register/Register";
 import Login from "../Login/Login";
 import Profile from "../Profile/Profile";
 import NotFound from "../NotFound/NotFound";
-import {AppRoute} from "../../constants";
+import {AppRoute, errorText} from "../../constants";
 import BurgerPopup from "../BurgerPopup/BurgerPopup";
 import {useEffect, useState} from "react";
 import {register, login} from "../../utils/Auth";
@@ -31,9 +31,14 @@ function App() {
   const [activeShowAllMovies, isActiveShowAllMovies] = useState(false);
   const [allMoviesButton, setAllMoviesButton] = useState(false);
   const [errorMovies, setErrorMovies] = useState("");
+  const [errorSaveMovies, setErrorSaveMovies] = useState(false);
   const [formValue, setFormValue] = useState("");
+  const [formValueSave, setFormValueSave] = useState("");
   const [checkbox, setCheckbox] = useState(false);
+  const [checkboxSave, setCheckboxSave] = useState(false)
   const [savedMovies, setSavedMovies] = useState([]);
+  const [savePageClick, setSavePageClick] = useState(false)
+  const [savedFilterMovies, setSavedFilterMovies] = useState([]);
   const [registerResponse, isregisterResponse] = useState({
     status: false,
     text: "",
@@ -86,9 +91,9 @@ function App() {
           navigate({replace: false});
         })
         .catch((err) => {
-          console.log(err);
+          setErrorMovies(errorText)
         })
-        .finally(() => setIsLoading(false));
+        .finally(setTimeout(() => setIsLoading(false), 1000));
     }
   }, [loggedIn]);
 
@@ -102,8 +107,9 @@ function App() {
         })
         .catch((err) => {
           console.log(err);
+          setErrorMovies(errorText)
         })
-        .finally(() => setIsLoading(false));
+        .finally(setTimeout(() => setIsLoading(false), 1000));
     }
   }, [loggedIn]);
 
@@ -111,7 +117,7 @@ function App() {
     if (localStorage.getItem("filterMovies") && localStorage.getItem("checkbox")) {
       const inputMovieName = localStorage.getItem("inputMovieName");
       const checkbox = JSON.parse(localStorage.getItem("checkbox"));
-      handleCheckboxClick(checkbox, inputMovieName);
+      handleFilterAllMovies(checkbox, inputMovieName);
       setFormValue(inputMovieName);
       setAllMoviesButton(true);
       setCheckbox(checkbox);
@@ -191,7 +197,6 @@ function App() {
       .then((data) => {
         localStorage.setItem("jwt", data.token);
         navigate("/movies");
-        //setCurrentUser(data);
       })
       .catch((res) => {
         if (res === "Ошибка 401") {
@@ -230,12 +235,11 @@ function App() {
   }
 
   function signOut() {
-    localStorage.removeItem("jwt");
     navigate(AppRoute.Login);
     isLoggedIn(false);
     setCurrentUser("");
-    localStorage.removeItem("filterMovies");
-    localStorage.removeItem("allMovies");
+    setFormValue("")
+    localStorage.clear();
   }
 
   function handleOpenBurgerPopup() {
@@ -263,15 +267,13 @@ function App() {
       .deleteMovies(movie._id)
       .then(() => {
         setSavedMovies((i) => i.filter((m) => m._id !== movie._id));
-        //setSavedMovies((state) => state.filter((item) => item._id !== movie._id));
-        // console.log(savedMovies)
       })
       .catch((err) => {
         console.log(err);
       });
   }
 
-  function handleCheckboxClick(checkbox, movie) {
+  function handleFilterAllMovies(checkbox, movie) {
     setErrorMovies("");
 
     let filteredMovies = movies.filter((item) =>
@@ -309,6 +311,43 @@ function App() {
     }
   }
 
+  function handleFilterSaveMovies(checkbox, inputSearch) {
+    let filteredMovies = savedMovies.filter((item) =>
+      item.nameRU.toLowerCase().includes(inputSearch.toLowerCase())
+    );
+    let sortFilteredMovies = filteredMovies.filter(
+      (movie) => movie.duration <= 40
+    );
+    
+    // localStorage.setItem("filterMoviesSavePage", JSON.stringify(filteredMovies));
+    // localStorage.setItem("checkboxSavePage", JSON.stringify(checkbox));
+    // localStorage.setItem("inputMovieNameSavePage", inputSearch);
+
+    if (filteredMovies.length !== 0 && !checkbox) {
+      setErrorSaveMovies("")
+      setSavedFilterMovies(filteredMovies);
+    } else if(filteredMovies.length !== 0 && checkbox && sortFilteredMovies.length !== 0) {
+      setErrorSaveMovies("")
+      setSavedFilterMovies(sortFilteredMovies);
+    } else if(sortFilteredMovies.length === 0 && checkbox) {
+      setErrorSaveMovies("Фильмы не найдены");
+    } else if(filteredMovies.length === 0 ) {
+      setErrorSaveMovies("Фильмы не найдены")
+    } 
+  }
+
+useEffect(()=> {
+  if(savedFilterMovies.length  === 0 && !savePageClick) {
+    setIsLoading(true)
+    setSavedFilterMovies(savedMovies)
+  } else if(savePageClick || checkboxSave) {
+    handleFilterSaveMovies(checkboxSave, formValueSave)
+  } else if(!checkboxSave && savedFilterMovies.length  !== 0) {
+    setIsLoading(false)
+    handleFilterSaveMovies(checkboxSave, formValueSave)
+  }
+}, [checkboxSave, savedMovies, savePageClick])
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -327,7 +366,7 @@ function App() {
               />
               <Route
                 path={AppRoute.Main}
-                element={<Main isLoggedIn={loggedIn} />}
+                element={<Main isLoggedIn={loggedIn}  onOpenBurgerPopup={handleOpenBurgerPopup} />}
               />
               <Route
                 path={AppRoute.Movies}
@@ -344,7 +383,7 @@ function App() {
                     onOpenBurgerPopup={handleOpenBurgerPopup}
                     isLoading={isLoading}
                     movies={visibleFilms}
-                    handleCheckboxClick={handleCheckboxClick}
+                    handleFilterMovies={handleFilterAllMovies}
                     isActiveShowAllMovies={isActiveShowAllMovies}
                     allMoviesButton={allMoviesButton}
                     setAllMoviesButton={setAllMoviesButton}
@@ -363,16 +402,15 @@ function App() {
                     onOpenBurgerPopup={handleOpenBurgerPopup}
                     isLoading={isLoading}
                     handleSaveMovie={handleSaveMovie}
-                    setFormValue={setFormValue}
-                    checkbox={checkbox}
-                    formValue={formValue}
-                    setCheckbox={setCheckbox}
-                    errorMovies={errorMovies}
-                    movies={savedMovies}
-                    handleCheckboxClick={handleCheckboxClick}
-                    isActiveShowAllMovies={isActiveShowAllMovies}
-                    allMoviesButton={allMoviesButton}
+                    setFormValue={setFormValueSave}
+                    checkbox={checkboxSave}
+                    formValue={formValueSave}
+                    setCheckbox={setCheckboxSave}
+                    errorSaveMovies={errorSaveMovies}
+                    movies={savedFilterMovies}
+                    handleFilterMovies={handleFilterSaveMovies}
                     setAllMoviesButton={setAllMoviesButton}
+                    setSavePageClick={setSavePageClick}
                   />
                 }
               />

@@ -1,8 +1,7 @@
 import "./SearchForm.scss";
 
-function SearchForm({props }) {
-  const {handleCheckboxClick, setAllMoviesButton, checkbox,setCheckbox, formValue, setFormValue} = props
-  
+function SearchForm({props}) {
+  const {handleFilterMovies, setAllMoviesButton, checkbox,setCheckbox, formValue, setFormValue, pageSavedMovie, setSavePageClick} = props
   const switcherClassName = `search-form__checkbox-switcher ${
     checkbox && "search-form__checkbox-switcher_active"
   }`;
@@ -20,7 +19,7 @@ function SearchForm({props }) {
 // }, [])
 
   function handleCheckboxChange() {
-    handleCheckboxClick(!checkbox, formValue);
+    handleFilterMovies(!checkbox, formValue);
     setCheckbox(!checkbox)
   }
 
@@ -30,9 +29,13 @@ function SearchForm({props }) {
 
   function handelSortSubmit(e) {
     e.preventDefault();
-    handleCheckboxClick(checkbox, formValue);
-    setAllMoviesButton(true);
+    handleFilterMovies(checkbox, formValue);
+    !pageSavedMovie && setAllMoviesButton(true);
+    
   }
+    function submit() {
+      pageSavedMovie && setSavePageClick(true)
+    }
 
   return (
     <section className="search-form">
@@ -52,6 +55,7 @@ function SearchForm({props }) {
             className={'search-form__button button-hover'}
             type="submit"
             aria-label="Кнопка найти"
+            onClick={submit}
           >
             Найти
           </button>

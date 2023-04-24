@@ -1,16 +1,16 @@
-import { useEffect, useState } from "react";
 import "./MoviesCard.scss";
 
-function MoviesCard({ film, props, saved, savedMovies }) {
-  const { nameRU, trailerLink, duration, image, _moviId } = film;
-  const {handleSaveMovie, pageSavedMovie, movies, handleDeleteMovies } = props;
+function MoviesCard({ film, props, isSaved, savedMovies }) {
+  const { nameRU, trailerLink, duration, image, } = film;
+  const {handleSaveMovie, pageSavedMovie, handleDeleteMovies } = props;
   const hours = Math.trunc(duration / 60);
   const minutes = Math.trunc(duration - hours * 60);
+
   function onButtonClick() {
     if(pageSavedMovie) {
       handleDeleteMovies(film)
     } else {
-      if (saved) {
+      if (isSaved) {
         //чтобы работало без перезагрузки, фильм и сохран. фильмы отличаются по формату
         const filterSavedMovies = savedMovies.filter((m) => m.movieId === film.id)
         handleDeleteMovies(filterSavedMovies.shift())
@@ -22,8 +22,7 @@ function MoviesCard({ film, props, saved, savedMovies }) {
 
   const imageUrl = pageSavedMovie ? image :`https://api.nomoreparties.co${image.url}`
   const buttonClassName = pageSavedMovie ? 
-   'movies-card__dislike' : `movies-card__like ${saved && 'movies-card__like_active'}`
-  
+   'movies-card__dislike' : `movies-card__like ${isSaved && 'movies-card__like_active'}`
   
   return (
     <li className="movies-card">
