@@ -11,7 +11,7 @@
   }
   @media screen and (max-width: 495px) {
     max-width: 300px;
-  } 
+  }
 }
 
 .movies-card__container {
@@ -19,10 +19,6 @@
   @media screen and (max-width: 895px) {
     padding: 0 14px 14px;
   }
-}
-
-.movies-card__container :hover .movies-card__dislike {
-  display: block;
 }
 
 .movies-card__image {
@@ -36,7 +32,7 @@
   }
   @media screen and (max-width: 495px) {
     height: 168px;
-  } 
+  }
 }
 
 .movies-card__info {
@@ -44,10 +40,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  @media screen and (max-width: 895px){
+  @media screen and (max-width: 895px) {
     padding: 1px 8px 0 0px;
   }
-  @media screen and (max-width: 495px){
+  @media screen and (max-width: 495px) {
     padding-right: 4px;
   }
 }
@@ -59,9 +55,9 @@
   font-size: 13px;
   line-height: 16px;
   margin: 0;
-    @media screen and (max-width: 495px) {
-      font-size: 12px;
-      line-height: 15px;
+  @media screen and (max-width: 495px) {
+    font-size: 12px;
+    line-height: 15px;
   }
 }
 
@@ -74,18 +70,17 @@
   border: 0;
   background-color: transparent;
   opacity: 1;
-  transition: opacity .5s ease-out;
+  transition: opacity 0.5s ease-out;
   cursor: pointer;
   background-image: url(../../images/like.svg);
 }
 
-
 @media (any-hover: hover) {
   .movies-card__like:hover {
-    opacity: .7;
+    opacity: 0.7;
   }
   .movies-card__dislike:hover {
-    opacity: .7;
+    opacity: 0.7;
   }
 }
 
@@ -94,11 +89,9 @@
   opacity: 1;
 }
 
-
 .movies-card__dislike {
   min-width: 6.84px;
   min-height: 6.72px;
-  display: none;
   padding: 15px 15px;
   cursor: pointer;
   background-image: url(../../images/delete.svg);
@@ -107,11 +100,7 @@
   border: 0;
   background-color: transparent;
   opacity: 1;
-  transition: opacity .5s ease-out;
-
-  @media screen and (max-width: 495px) {
-    display: block;
-  }
+  transition: opacity 0.5s ease-out;
 }
 
 .movies-card__time {

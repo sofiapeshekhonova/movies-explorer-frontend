@@ -1,5 +1,3 @@
-// https://api.nomoreparties.co/beatfilm-movies
-
 class Api {
   constructor( {baseUrl}) { //прнимает ссылку и хеадерс
     this._baseUrl = baseUrl;
@@ -21,7 +19,6 @@ class Api {
     }).then(this.__checkResponse);
   }
 }
-
 
 export const apiMovies = new Api({
   baseUrl: 'https://api.nomoreparties.co/beatfilm-movies'

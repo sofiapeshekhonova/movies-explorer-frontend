@@ -11,10 +11,12 @@
   align-items: start;
   padding: 70px 30px 70px;
   margin: 0 auto;
+
   @media screen and (max-width: 768px) {
     padding-top: 232px;
     padding-bottom: 232px;
   }
+
   @media screen and (max-width: 320px) {
     padding-top: 56px;
     padding-bottom: 30px;
@@ -30,6 +32,7 @@
   line-height: 1;
   text-align: start;
   margin: 40px 0;
+
   @media screen and (max-width: 320px) {
     padding-top: 8px;
     margin-bottom: 80px;
@@ -46,6 +49,7 @@
   text-decoration: none;
   margin: 16px 0 0;
   width: 100%;
+
   @media screen and (max-width: 363px) {
     font-size: 12px;
   }

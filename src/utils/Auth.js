@@ -36,17 +36,3 @@ export const login = (password, email) => {
     return checkResponse(res)
   })
 };
-
-// export const checkToken = (token) => {
-//   return fetch(`${BASE_URL}/users/me`, {
-//     method: 'GET',
-//     headers: {
-//       Authorization: `Bearer ${token}`,
-//       'Content-Type': 'application/json'
-//     },
-//   })
-//   .then((res) => {
-//     return checkResponse(res)
-//   })
-
-// }

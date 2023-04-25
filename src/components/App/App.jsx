@@ -25,24 +25,24 @@ function App() {
   const [loggedIn, isLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const [movies, setMovies] = useState([]);
-  const [visibleFilms, setVisibleFilms] = useState([]);
   const [isOpenInfoTooltip, setOpenInfoTooltip] = useState(false);
   const [updateUserError, setUpdateUserError] = useState("");
-  const [activeShowAllMovies, isActiveShowAllMovies] = useState(false);
-  const [allMoviesButton, setAllMoviesButton] = useState(false);
+  const [errorSearchFormSpan, setErrorSearchFormSpan] = useState("");
   const [errorMovies, setErrorMovies] = useState("");
   const [errorSaveMovies, setErrorSaveMovies] = useState(false);
-  const [formValue, setFormValue] = useState("");
+  const [moviesInputSearch, setMoviesInputSearch] = useState("")
   const [formValueSave, setFormValueSave] = useState("");
   const [checkbox, setCheckbox] = useState(false);
   const [checkboxSave, setCheckboxSave] = useState(false)
   const [savedMovies, setSavedMovies] = useState([]);
   const [savePageClick, setSavePageClick] = useState(false)
+  const [saveMoviePageClick, setMovieSavePageClick] = useState(false)
   const [savedFilterMovies, setSavedFilterMovies] = useState([]);
-  const [registerResponse, isregisterResponse] = useState({
-    status: false,
-    text: "",
-  });
+  const [activeShowAllMovies, setActiveShowAllMovies] = useState(true); //когда видна кнопка все фильмы
+  const [isFiltered, setIsFiltered] = useState(false); //происходила ли фильтрация исходного массива
+  const [filteredAllMovies, setFilteredAllMovies] = useState([]); //отфильтрованный массив
+  const [registerResponse, isregisterResponse] = useState({status: false, text: "",});
+
   const navigate = useNavigate();
   const token = localStorage.getItem("jwt");
 
@@ -113,35 +113,22 @@ function App() {
     }
   }, [loggedIn]);
 
-  useEffect(() => {
-    if (localStorage.getItem("filterMovies") && localStorage.getItem("checkbox")) {
-      const inputMovieName = localStorage.getItem("inputMovieName");
-      const checkbox = JSON.parse(localStorage.getItem("checkbox"));
-      handleFilterAllMovies(checkbox, inputMovieName);
-      setFormValue(inputMovieName);
-      setAllMoviesButton(true);
-      setCheckbox(checkbox);
-    } else if (localStorage.getItem("allMovies")) {
-      const allFilms = JSON.parse(localStorage.getItem("allMovies"));
-      setVisibleFilms(allFilms);
-    } else {
-      setVisibleFilms("");
-    }
-  }, [movies, allMoviesButton]);
-
-  useEffect(() => {//при нажатии на кнопку "все фильмы"
-    if (activeShowAllMovies === true) {
-      localStorage.removeItem("filterMovies");
-      localStorage.removeItem("inputMovieName");
-      let allMovies = movies;
-      localStorage.setItem("allMovies", JSON.stringify(allMovies));
-      setVisibleFilms(allMovies);
-      window.scrollTo(0, 0);
-      isActiveShowAllMovies(false);
-      setAllMoviesButton(false);
-      setErrorMovies("");
-    }
-  }, [activeShowAllMovies, movies]);
+  // useEffect(() => {
+    
+  //   // if (localStorage.getItem("filterMovies") && localStorage.getItem("checkbox")) {
+  //   //   const inputMovieName = localStorage.getItem("inputMovieName");
+  //   //   const checkbox = JSON.parse(localStorage.getItem("checkbox"));
+  //   //   //handleFilterAllMovies(checkbox, inputMovieName);
+  //   //   setFormValue(inputMovieName);
+  //   //   setAllMoviesButton(true);
+  //   //   setCheckbox(checkbox);
+  //   // } else if (localStorage.getItem("allMovies")) {
+  //   //   const allFilms = JSON.parse(localStorage.getItem("allMovies"));
+  //   //   setVisibleFilms(allFilms);
+  //   // } else {
+  //   //   setVisibleFilms("");
+  //   // }
+  // }, [movies, allMoviesButton]);
 
   useEffect(() => {
     function handleEscape(evt) {
@@ -161,6 +148,18 @@ function App() {
       document.removeEventListener("mousedown", handleClosePopups);
     };
   }, []);
+
+  useEffect(()=> {
+    if(savedFilterMovies.length  === 0 && !savePageClick) {
+      setIsLoading(true)
+      setSavedFilterMovies(savedMovies)
+    } else if(savePageClick || checkboxSave) {
+      handleFilterSaveMovies(checkboxSave, formValueSave)
+    } else if(!checkboxSave && savedFilterMovies.length  !== 0) {
+      setIsLoading(false)
+      handleFilterSaveMovies(checkboxSave, formValueSave)
+    }
+  }, [checkboxSave, savedMovies, savePageClick])
 
   function handleRegisterClick(password, email, name) {
     register(password, email, name)
@@ -220,6 +219,7 @@ function App() {
       .saveNewUserInfo(value)
       .then((user) => {
         setCurrentUser(user);
+        setUpdateUserError("Данные изменены успешно");
       })
       .then(closeAllPopups)
       .catch((err) => {
@@ -238,7 +238,8 @@ function App() {
     navigate(AppRoute.Login);
     isLoggedIn(false);
     setCurrentUser("");
-    setFormValue("")
+    setMoviesInputSearch("")
+    setCheckbox(false)
     localStorage.clear();
   }
 
@@ -272,44 +273,10 @@ function App() {
         console.log(err);
       });
   }
+  //   localStorage.setItem("filterMovies", JSON.stringify(visibleFilms));
+  //   localStorage.setItem("checkbox", JSON.stringify(checkbox));
+  //   localStorage.setItem("inputMovieName", formValue);
 
-  function handleFilterAllMovies(checkbox, movie) {
-    setErrorMovies("");
-
-    let filteredMovies = movies.filter((item) =>
-      item.nameRU.toLowerCase().includes(movie.toLowerCase())
-    );
-    let sortAllMovies = movies.filter((movie) => movie.duration <= 40);
-    let sortFilteredMoviesMovies = filteredMovies.filter(
-      (movie) => movie.duration <= 40
-    );
-
-    localStorage.setItem("filterMovies", JSON.stringify(filteredMovies));
-    localStorage.setItem("checkbox", JSON.stringify(checkbox));
-    localStorage.setItem("inputMovieName", movie);
-
-    if (filteredMovies.length !== 0 && !checkbox) {
-      setVisibleFilms(filteredMovies);
-    } else if (
-      filteredMovies.length !== 0 &&
-      checkbox &&
-      sortFilteredMoviesMovies.length !== 0
-    ) {
-      setVisibleFilms(sortFilteredMoviesMovies);
-    } else if (
-      filteredMovies.length !== 0 &&
-      checkbox &&
-      sortFilteredMoviesMovies.length === 0
-    ) {
-      setErrorMovies("Фильмы не найдены");
-    } else if (filteredMovies.length === 0) {
-      setErrorMovies("Фильмы не найдены");
-    } else if (movie.length === 0) {
-      setVisibleFilms(movies);
-    } else if (movie.length === 0 && !checkbox) {
-      setVisibleFilms(sortAllMovies);
-    }
-  }
 
   function handleFilterSaveMovies(checkbox, inputSearch) {
     let filteredMovies = savedMovies.filter((item) =>
@@ -336,18 +303,39 @@ function App() {
     } 
   }
 
-useEffect(()=> {
-  if(savedFilterMovies.length  === 0 && !savePageClick) {
-    setIsLoading(true)
-    setSavedFilterMovies(savedMovies)
-  } else if(savePageClick || checkboxSave) {
-    handleFilterSaveMovies(checkboxSave, formValueSave)
-  } else if(!checkboxSave && savedFilterMovies.length  !== 0) {
-    setIsLoading(false)
-    handleFilterSaveMovies(checkboxSave, formValueSave)
+  function handleCheckboxChange() { 
+    setCheckbox(!checkbox);
   }
-}, [checkboxSave, savedMovies, savePageClick])
+  
+  function handleFilteredMovies(formValue) { //при нажатии на кнопку найти
+    setMoviesInputSearch(formValue);
+    setIsFiltered(true);
+  }
 
+  useEffect(() => {
+    let filteredMovies = movies.filter((item) =>
+      item.nameRU.toLowerCase().includes(moviesInputSearch.toLowerCase())
+    );
+    let sortFilteredMovies = filteredMovies.filter(
+      (movie) => movie.duration <= 40
+    );
+    if (checkbox) {
+      filteredMovies = sortFilteredMovies;
+    }
+    setFilteredAllMovies(filteredMovies);
+    setMoviesInputSearch(moviesInputSearch)
+  }, [movies, moviesInputSearch, checkbox, loggedIn]);
+
+  function handleShowAllMovies() {
+    setMoviesInputSearch("");
+    setCheckbox(false);
+    window.scrollTo(0, 0);
+    setIsFiltered(true);
+    //setErrorMovies("");
+    setErrorSearchFormSpan("")
+    setActiveShowAllMovies(false);
+  }
+  
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -356,44 +344,36 @@ useEffect(()=> {
         ) : (
           <>
             <Routes>
-              <Route
-                path={AppRoute.Register}
-                element={<Register register={handleRegisterClick} />}
-              ></Route>
-              <Route
-                path={AppRoute.Login}
-                element={<Login login={handleLoginClick} />}
+              <Route path={AppRoute.Register} element={<Register register={handleRegisterClick} />} />
+              <Route path={AppRoute.Login} element={<Login login={handleLoginClick} />} />
+              <Route path={AppRoute.Main}
+                element={<Main isLoggedIn={loggedIn} onOpenBurgerPopup={handleOpenBurgerPopup} />}
               />
-              <Route
-                path={AppRoute.Main}
-                element={<Main isLoggedIn={loggedIn}  onOpenBurgerPopup={handleOpenBurgerPopup} />}
-              />
-              <Route
-                path={AppRoute.Movies}
+              <Route path={AppRoute.Movies}
                 element={
                   <ProtectedRouteElement
                     component={Movies}
-                    handleSaveMovie={handleSaveMovie}
-                    setFormValue={setFormValue}
-                    checkbox={checkbox}
-                    formValue={formValue}
-                    setCheckbox={setCheckbox}
                     errorMovies={errorMovies}
                     isLoggedIn={loggedIn}
-                    onOpenBurgerPopup={handleOpenBurgerPopup}
                     isLoading={isLoading}
-                    movies={visibleFilms}
-                    handleFilterMovies={handleFilterAllMovies}
-                    isActiveShowAllMovies={isActiveShowAllMovies}
-                    allMoviesButton={allMoviesButton}
-                    setAllMoviesButton={setAllMoviesButton}
-                    savedMovies={savedMovies}
+                    onOpenBurgerPopup={handleOpenBurgerPopup}
+                    handleSaveMovie={handleSaveMovie}
+                    handleFilteredMovies={handleFilteredMovies}
+                    isFiltered={isFiltered}
+                    activeShowAllMovies={activeShowAllMovies}
+                    setActiveShowAllMovies={setActiveShowAllMovies}
+                    handleShowAllMovies={handleShowAllMovies}
                     handleDeleteMovies={handleDeleteMovies}
+                    movies={filteredAllMovies}
+                    savedMovies={savedMovies}
+                    errorSpan={errorSearchFormSpan}
+                    setErrorSpan={setErrorSearchFormSpan}
+                    handleCheckboxChange={handleCheckboxChange}
+                    checkbox={checkbox}
                   />
                 }
               />
-              <Route
-                path={AppRoute.SavedMovies}
+              <Route path={AppRoute.SavedMovies}
                 element={
                   <ProtectedRouteElement
                     component={SavedMovies}
@@ -409,8 +389,7 @@ useEffect(()=> {
                     errorSaveMovies={errorSaveMovies}
                     movies={savedFilterMovies}
                     handleFilterMovies={handleFilterSaveMovies}
-                    setAllMoviesButton={setAllMoviesButton}
-                    setSavePageClick={setSavePageClick}
+                   setActiveShowAllMovies={setActiveShowAllMovies}
                   />
                 }
               />
@@ -424,7 +403,6 @@ useEffect(()=> {
                     currentUser={currentUser}
                     onUpdateUser={handleUpdateUserClick}
                     updateUserError={updateUserError}
-                    setUpdateUserError={setUpdateUserError}
                     signOut={signOut}
                   />
                 }

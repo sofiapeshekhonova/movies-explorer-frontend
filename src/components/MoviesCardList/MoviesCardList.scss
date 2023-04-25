@@ -15,11 +15,9 @@
   display: grid;
   row-gap: 33px;
   column-gap: 24px;
-  //grid-template-columns: repeat(auto-fit, minmax(364px, 1fr));
   grid-template-columns: repeat(3, 1fr);
   justify-items: center;
-    @media screen and (max-width: 898px) {
-    // grid-template-columns: repeat(auto-fit, minmax(339px, 1fr));
+  @media screen and (max-width: 898px) {
     grid-template-columns: repeat(2, 1fr);
     gap: 30px;
   }
@@ -63,9 +61,8 @@
   max-width: 100%;
   display: block;
   background-color: var(--blue);
-  color: var(--white)
+  color: var(--white);
 }
 .movies-card-list__button-all_disabled {
   display: none;
 }
-

@@ -1,9 +1,10 @@
-import register_ok from '../../images/register_ok.svg'
-import register_arror from '../../images/register_arror.svg'
-import './InfoTooltip.scss'
-function InfoTooltip ({onClose, isOpen, registerResponse}) {
+import register_ok from "../../images/register_ok.svg";
+import register_arror from "../../images/register_arror.svg";
+import "./InfoTooltip.scss";
+
+function InfoTooltip({onClose, isOpen, registerResponse}) {
   return (
-    <section className={`popup ${isOpen && 'popup_opened'}`}>
+    <section className={`popup ${isOpen && "popup_opened"}`}>
       <div className="popup__container">
         <button
           className="popup__close-icon"
@@ -11,13 +12,14 @@ function InfoTooltip ({onClose, isOpen, registerResponse}) {
           type="button"
           onClick={onClose}
         />
-        <img src={registerResponse.status ? register_ok : register_arror} className="popup__image" alt="регистрация прошла успешно"></img>
-        <h2 className="popup__title">
-          {registerResponse.text}
-        </h2>
-        
+        <img
+          src={registerResponse.status ? register_ok : register_arror}
+          className="popup__image"
+          alt="регистрация прошла успешно"
+        ></img>
+        <h2 className="popup__title">{registerResponse.text}</h2>
       </div>
     </section>
   );
 }
-export default InfoTooltip
+export default InfoTooltip;
