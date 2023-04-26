@@ -32,7 +32,7 @@ function App() {
   const [errorSaveMovies, setErrorSaveMovies] = useState(false);
   const [moviesInputSearch, setMoviesInputSearch] = useState("")
   const [formValueSave, setFormValueSave] = useState("");
-  const [checkbox, setCheckbox] = useState(false);
+ const [checkbox, setCheckbox] = useState(false);
   const [checkboxSave, setCheckboxSave] = useState(false)
   const [savedMovies, setSavedMovies] = useState([]);
   const [savePageClick, setSavePageClick] = useState(false)
@@ -42,6 +42,8 @@ function App() {
   const [isFiltered, setIsFiltered] = useState(false); //происходила ли фильтрация исходного массива
   const [filteredAllMovies, setFilteredAllMovies] = useState([]); //отфильтрованный массив
   const [registerResponse, isregisterResponse] = useState({status: false, text: "",});
+
+  const [formValue, setFormValue] = useState("")
 
   const navigate = useNavigate();
   const token = localStorage.getItem("jwt");
@@ -113,22 +115,7 @@ function App() {
     }
   }, [loggedIn]);
 
-  // useEffect(() => {
-    
-  //   // if (localStorage.getItem("filterMovies") && localStorage.getItem("checkbox")) {
-  //   //   const inputMovieName = localStorage.getItem("inputMovieName");
-  //   //   const checkbox = JSON.parse(localStorage.getItem("checkbox"));
-  //   //   //handleFilterAllMovies(checkbox, inputMovieName);
-  //   //   setFormValue(inputMovieName);
-  //   //   setAllMoviesButton(true);
-  //   //   setCheckbox(checkbox);
-  //   // } else if (localStorage.getItem("allMovies")) {
-  //   //   const allFilms = JSON.parse(localStorage.getItem("allMovies"));
-  //   //   setVisibleFilms(allFilms);
-  //   // } else {
-  //   //   setVisibleFilms("");
-  //   // }
-  // }, [movies, allMoviesButton]);
+
 
   useEffect(() => {
     function handleEscape(evt) {
@@ -273,10 +260,6 @@ function App() {
         console.log(err);
       });
   }
-  //   localStorage.setItem("filterMovies", JSON.stringify(visibleFilms));
-  //   localStorage.setItem("checkbox", JSON.stringify(checkbox));
-  //   localStorage.setItem("inputMovieName", formValue);
-
 
   function handleFilterSaveMovies(checkbox, inputSearch) {
     let filteredMovies = savedMovies.filter((item) =>
@@ -302,40 +285,78 @@ function App() {
       setErrorSaveMovies("Фильмы не найдены")
     } 
   }
-
-  function handleCheckboxChange() { 
-    setCheckbox(!checkbox);
-  }
   
-  function handleFilteredMovies(formValue) { //при нажатии на кнопку найти
-    setMoviesInputSearch(formValue);
+  function handleFilteredMovies(formValue, checkbox) { //при нажатии на кнопку найти
     setIsFiltered(true);
-  }
-
-  useEffect(() => {
     let filteredMovies = movies.filter((item) =>
-      item.nameRU.toLowerCase().includes(moviesInputSearch.toLowerCase())
-    );
+      item.nameRU.toLowerCase().includes(formValue.toLowerCase()));
     let sortFilteredMovies = filteredMovies.filter(
-      (movie) => movie.duration <= 40
-    );
-    if (checkbox) {
+      (movie) => movie.duration <= 40);
+    localStorage.setItem('formValue', JSON.stringify(formValue));
+    if(checkbox) {
       filteredMovies = sortFilteredMovies;
     }
     setFilteredAllMovies(filteredMovies);
-    setMoviesInputSearch(moviesInputSearch)
-  }, [movies, moviesInputSearch, checkbox, loggedIn]);
-
+    localStorage.setItem('filteredMovies', JSON.stringify(filteredMovies));
+  }
+ 
   function handleShowAllMovies() {
+    setFilteredAllMovies(movies)
+    localStorage.removeItem("filteredMovies")
+    localStorage.removeItem("formValue")
+    localStorage.setItem('allMovies', JSON.stringify(movies));
     setMoviesInputSearch("");
     setCheckbox(false);
     window.scrollTo(0, 0);
     setIsFiltered(true);
+    setFormValue("")
     //setErrorMovies("");
     setErrorSearchFormSpan("")
     setActiveShowAllMovies(false);
   }
-  
+
+  function handleCheckboxFiltered(checkbox) {
+    setIsFiltered(true);
+    let filterMovies
+    if(localStorage.getItem('filteredMovies') && checkbox) {
+      const films = JSON.parse(localStorage.getItem('filteredMovies'));
+      let sortFilteredMovies = films.filter((movie) => movie.duration <= 40);
+      if(checkbox) {
+        filterMovies = sortFilteredMovies;
+      } else if(localStorage.getItem('formValue')){
+        const formValue =  JSON.parse(localStorage.getItem('formValue'))
+        filterMovies = movies.filter((item) =>
+        item.nameRU.toLowerCase().includes(formValue.toLowerCase())); 
+      }
+    } else if(localStorage.getItem('allMovies')) {
+      const allMovies = JSON.parse(localStorage.getItem('allMovies'));
+      let sortFilteredMovies = allMovies.filter((movie) => movie.duration <= 40);
+        if(checkbox) {
+          filterMovies = sortFilteredMovies;
+        } else {
+          filterMovies = allMovies
+        }
+    } 
+    setFilteredAllMovies(filterMovies);
+    localStorage.setItem('filteredMovies', JSON.stringify(filterMovies));
+
+  }
+
+  useEffect(()=> {
+    if(localStorage.getItem('filteredMovies')) {
+      setIsFiltered(true)
+      const filteredMovies = JSON.parse(localStorage.getItem('filteredMovies'));
+      setFilteredAllMovies(filteredMovies); 
+    } else if (localStorage.getItem('allMovies')) {
+      setIsFiltered(true)
+      const allMovies = JSON.parse(localStorage.getItem('allMovies'));
+      setFilteredAllMovies(allMovies); 
+      setActiveShowAllMovies(false);
+    } else {
+      setFilteredAllMovies("");
+    }
+  },[])
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -368,8 +389,12 @@ function App() {
                     savedMovies={savedMovies}
                     errorSpan={errorSearchFormSpan}
                     setErrorSpan={setErrorSearchFormSpan}
-                    handleCheckboxChange={handleCheckboxChange}
+                    handleCheckboxFiltered={handleCheckboxFiltered}
+                    //handleCheckboxChange={handleCheckboxChange}
                     checkbox={checkbox}
+                    setCheckbox={setCheckbox}
+                    formValue={formValue} 
+                    setFormValue={setFormValue}
                   />
                 }
               />
@@ -383,9 +408,9 @@ function App() {
                     isLoading={isLoading}
                     handleSaveMovie={handleSaveMovie}
                     setFormValue={setFormValueSave}
-                    checkbox={checkboxSave}
+                   // checkbox={checkboxSave}
                     formValue={formValueSave}
-                    setCheckbox={setCheckboxSave}
+                   // setCheckbox={setCheckboxSave}
                     errorSaveMovies={errorSaveMovies}
                     movies={savedFilterMovies}
                     handleFilterMovies={handleFilterSaveMovies}

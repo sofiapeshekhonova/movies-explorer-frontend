@@ -54,7 +54,7 @@ function MoviesCardList({props, pageSavedMovie}) {
       }
     }
   };
-
+//console.log(movies)
   return (
     <section className="movies-card-list">
       {!pageSavedMovie ?

@@ -1,19 +1,20 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import "./SearchForm.scss";
 
 function SearchForm({props}) {
   const {
     setActiveShowAllMovies,
-    checkbox,
+    handleCheckboxFiltered,
     pageSavedMovie,
-    setSavePageClick,
-    handleCheckboxChange,
     handleFilteredMovies,
     errorSpan,
-    setErrorSpan
+    setErrorSpan,
+    checkbox, 
+    setCheckbox,
+    isFiltered,
+    formValue, 
+    setFormValue,
   } = props;
-
-  const [formValue, setFormValue] = useState("")
 
   const switcherClassName = `search-form__checkbox-switcher ${
     checkbox && "search-form__checkbox-switcher_active"
@@ -22,9 +23,31 @@ function SearchForm({props}) {
     checkbox && "search-form__checkbox-button_active"
   }`;
 
+  useEffect(() => {
+    if (localStorage.getItem("formValue")) {
+      const value = JSON.parse(localStorage.getItem("formValue"))
+      setFormValue(value);
+    }
+  }, []);
+
+  useEffect(() => {
+    if(localStorage.getItem("checkbox")) {
+      const checkbox = JSON.parse(localStorage.getItem("checkbox"));
+      setCheckbox(checkbox)
+    }
+  }, []);
+
   function handleChange(e) {
     setFormValue(e.target.value);
     setErrorSpan("");
+  }
+
+  function handleCheckboxChange() { // нажали на чекбокс
+    if(isFiltered) {
+      setCheckbox(!checkbox);
+      handleCheckboxFiltered(!checkbox)
+      localStorage.setItem('checkbox', JSON.stringify(!checkbox));
+    }
   }
 
   function handelSortSubmit(e) {
@@ -34,11 +57,7 @@ function SearchForm({props}) {
       setErrorSpan("Поле не должно быть пустым");
       return;
     }
-    handleFilteredMovies(formValue)
-  }
-
-  function submit() {
-    setSavePageClick(true);
+    handleFilteredMovies(formValue, checkbox)
   }
 
   return (
@@ -59,7 +78,6 @@ function SearchForm({props}) {
             className={"search-form__button button-hover"}
             type="submit"
             aria-label="Кнопка найти"
-            onClick={submit}
             disabled={errorSpan}
           >
             Найти
