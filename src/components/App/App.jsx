@@ -225,9 +225,10 @@ function App() {
     navigate(AppRoute.Login);
     isLoggedIn(false);
     setCurrentUser("");
-    setMoviesInputSearch("")
-    setCheckbox(false)
+    setMoviesInputSearch("");
+    setCheckbox(false);
     localStorage.clear();
+    setFilteredAllMovies({});
   }
 
   function handleOpenBurgerPopup() {
@@ -304,21 +305,34 @@ function App() {
     setFilteredAllMovies(movies)
     localStorage.removeItem("filteredMovies")
     localStorage.removeItem("formValue")
+    localStorage.removeItem("chechbox")
     localStorage.setItem('allMovies', JSON.stringify(movies));
     setMoviesInputSearch("");
-    setCheckbox(false);
     window.scrollTo(0, 0);
     setIsFiltered(true);
     setFormValue("")
     //setErrorMovies("");
     setErrorSearchFormSpan("")
     setActiveShowAllMovies(false);
+    setCheckbox(false);
   }
 
   function handleCheckboxFiltered(checkbox) {
     setIsFiltered(true);
     let filterMovies
-    if(localStorage.getItem('filteredMovies') && checkbox) {
+
+    // if(checkbox && localStorage.getItem('filteredMovies')) {
+    //   const films = JSON.parse(localStorage.getItem('filteredMovies'));
+    //   let sortFilteredMovies = films.filter((movie) => movie.duration <= 40);
+    //   filterMovies = sortFilteredMovies;
+    // } else if( !checkbox && localStorage.getItem('filteredMovies') ) {
+    //   const films = JSON.parse(localStorage.getItem('filteredMovies'));
+    //   filterMovies
+    // }
+
+
+
+    if(localStorage.getItem('filteredMovies')) {
       const films = JSON.parse(localStorage.getItem('filteredMovies'));
       let sortFilteredMovies = films.filter((movie) => movie.duration <= 40);
       if(checkbox) {
@@ -327,16 +341,22 @@ function App() {
         const formValue =  JSON.parse(localStorage.getItem('formValue'))
         filterMovies = movies.filter((item) =>
         item.nameRU.toLowerCase().includes(formValue.toLowerCase())); 
+      } else if(!checkbox && !localStorage.getItem('allMovies')) {
+        filterMovies = films
+      } else if (!checkbox && localStorage.getItem('allMovies')) {
+        filterMovies = movies
       }
     } else if(localStorage.getItem('allMovies')) {
       const allMovies = JSON.parse(localStorage.getItem('allMovies'));
       let sortFilteredMovies = allMovies.filter((movie) => movie.duration <= 40);
         if(checkbox) {
           filterMovies = sortFilteredMovies;
-        } else {
-          filterMovies = allMovies
+        } else if (!checkbox) {
+          filterMovies = allMovies;
         }
-    } 
+    } else if(!localStorage.getItem('filteredMovies') &&  !localStorage.getItem('allMovies')) {
+      setErrorMovies("Ничего не найдено")
+    }
     setFilteredAllMovies(filterMovies);
     localStorage.setItem('filteredMovies', JSON.stringify(filterMovies));
 
@@ -351,7 +371,6 @@ function App() {
       setIsFiltered(true)
       const allMovies = JSON.parse(localStorage.getItem('allMovies'));
       setFilteredAllMovies(allMovies); 
-      setActiveShowAllMovies(false);
     } else {
       setFilteredAllMovies("");
     }

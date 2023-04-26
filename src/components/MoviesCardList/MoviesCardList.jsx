@@ -54,14 +54,14 @@ function MoviesCardList({props, pageSavedMovie}) {
       }
     }
   };
-//console.log(movies)
+
   return (
     <section className="movies-card-list">
       {!pageSavedMovie ?
         <>
           {!errorMovies ? 
             <>
-              {movies.length !== 0 && !isFiltered ?             
+              {movies.length === 0 && !isFiltered ?             
                 <MoviesEmpty
                   text={"Начните поиск"}
                   className={buttonAllMovies}
