@@ -1,11 +1,10 @@
 import { useEffect } from "react";
 import "./SearchForm.scss";
 
-function SearchForm({props}) {
+function SearchForm({props, pageSavedMovie}) {
   const {
     setActiveShowAllMovies,
     handleCheckboxFiltered,
-    pageSavedMovie,
     handleFilteredMovies,
     errorSpan,
     setErrorSpan,
@@ -24,14 +23,14 @@ function SearchForm({props}) {
   }`;
 
   useEffect(() => {
-    if (localStorage.getItem("formValue")) {
+    if (localStorage.getItem("formValue") && !pageSavedMovie) {
       const value = JSON.parse(localStorage.getItem("formValue"))
       setFormValue(value);
     }
   }, []);
 
   useEffect(() => {
-    if(localStorage.getItem("checkbox")) {
+    if(localStorage.getItem("checkbox") &&! pageSavedMovie) {
       const checkbox = JSON.parse(localStorage.getItem("checkbox"));
       setCheckbox(checkbox)
     }
@@ -44,6 +43,10 @@ function SearchForm({props}) {
 
   function handleCheckboxChange() { // нажали на чекбокс
     if(isFiltered) {
+      setCheckbox(!checkbox);
+      handleCheckboxFiltered(!checkbox)
+      localStorage.setItem('checkbox', JSON.stringify(!checkbox));
+    } else if(pageSavedMovie) {
       setCheckbox(!checkbox);
       handleCheckboxFiltered(!checkbox)
       localStorage.setItem('checkbox', JSON.stringify(!checkbox));

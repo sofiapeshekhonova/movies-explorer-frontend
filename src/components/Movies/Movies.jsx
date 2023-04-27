@@ -10,7 +10,7 @@ function Movies(props) {
   return (
     <Layout className="header" isLoggedIn page onOpenBurgerPopup={onOpenBurgerPopup} >
       <main className="movies">
-        <SearchForm props={props} />
+        <SearchForm props={props} pageSavedMovie={false}/>
         {isLoading ? (
           <Preloader />
         ) : (

@@ -12,11 +12,10 @@ function MoviesCardList({props, pageSavedMovie}) {
     savedMovies,
     isFiltered,
     handleShowAllMovies,
-    handleSaveMovie
+    handleSaveMovie,
   } = props;
 
   const [countCard, setCountCard] = useState(12);
-
   const buttonAllMovies = pageSavedMovie
     ? "movies-card-list__button-all_disabled"
     : `movies-card-list__button movies-card-list__button-all ${
@@ -61,10 +60,10 @@ function MoviesCardList({props, pageSavedMovie}) {
         <>
           {!errorMovies ? 
             <>
-              {movies.length === 0 && !isFiltered ?             
+              {!movies.length && !isFiltered ?             
                 <MoviesEmpty
                   text={"Начните поиск"}
-                  className={buttonAllMovies}
+                  className={!pageSavedMovie && "movies-card-list__button movies-card-list__button-all"}
                   onClick={handleShowAllMovies}
                 />
               : <>
@@ -72,7 +71,7 @@ function MoviesCardList({props, pageSavedMovie}) {
                   <>
                   <ul className="movies-card-list__list">
                     {movies.slice(0, countCard).map((film, index) => {
-                      return index < countCard ? (
+                      return index < countCard &&
                         <MoviesCard
                         //проверяем каждый фильм и сравниваем с сохраненными фильмами 
                           isSaved={savedMovies.find((savedMovie) => savedMovie.movieId === film.id)}
@@ -83,7 +82,6 @@ function MoviesCardList({props, pageSavedMovie}) {
                           props={props}
                           pageSavedMovie={pageSavedMovie}
                         />
-                      ) : ("Фильмы не найдены");
                     })}
                   </ul>
                   {movies.length > countCard && (
@@ -112,8 +110,12 @@ function MoviesCardList({props, pageSavedMovie}) {
                 return(<MoviesCard key={film.movieId} film={film} props={props} pageSavedMovie={pageSavedMovie}/>)
               })}
             </ul>
-          : 
+          : <>{!isFiltered ? 
             <MoviesEmpty text={"Добавьте фильмы в избранное"} className={buttonAllMovies} />
+            :
+            <MoviesEmpty text={"Ничего не найдено"} className={buttonAllMovies} />
+            }
+            </>
           }
         </>
          : <MoviesEmpty text={errorSaveMovies} className={buttonAllMovies}/> }
