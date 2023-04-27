@@ -5,7 +5,6 @@ import MoviesEmpty from "../MoviesEmpty/MoviesEmpty";
 
 function MoviesCardList({props, pageSavedMovie}) {
   const {
-    movies,
     activeShowAllMovies,
     errorMovies,
     errorSaveMovies,
@@ -13,6 +12,7 @@ function MoviesCardList({props, pageSavedMovie}) {
     isFiltered,
     handleShowAllMovies,
     handleSaveMovie,
+    movies
   } = props;
 
   const [countCard, setCountCard] = useState(12);
@@ -110,12 +110,8 @@ function MoviesCardList({props, pageSavedMovie}) {
                 return(<MoviesCard key={film.movieId} film={film} props={props} pageSavedMovie={pageSavedMovie}/>)
               })}
             </ul>
-          : <>{!isFiltered ? 
-            <MoviesEmpty text={"Добавьте фильмы в избранное"} className={buttonAllMovies} />
-            :
-            <MoviesEmpty text={"Ничего не найдено"} className={buttonAllMovies} />
-            }
-            </>
+          : 
+            <MoviesEmpty text={"Фильмы не найдены"} className={buttonAllMovies} />
           }
         </>
          : <MoviesEmpty text={errorSaveMovies} className={buttonAllMovies}/> }

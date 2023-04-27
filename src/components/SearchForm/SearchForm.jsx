@@ -4,8 +4,6 @@ import "./SearchForm.scss";
 function SearchForm({props, pageSavedMovie}) {
   const {
     setActiveShowAllMovies,
-    handleCheckboxFiltered,
-    handleFilteredMovies,
     errorSpan,
     setErrorSpan,
     checkbox, 
@@ -13,6 +11,8 @@ function SearchForm({props, pageSavedMovie}) {
     isFiltered,
     formValue, 
     setFormValue,
+    handleFilteredMovies, 
+    handleCheckboxFiltered,
   } = props;
 
   const switcherClassName = `search-form__checkbox-switcher ${
@@ -21,6 +21,7 @@ function SearchForm({props, pageSavedMovie}) {
   const buttonCheckboxClassName = `search-form__checkbox-button ${
     checkbox && "search-form__checkbox-button_active"
   }`;
+
 
   useEffect(() => {
     if (localStorage.getItem("formValue") && !pageSavedMovie) {
@@ -42,14 +43,14 @@ function SearchForm({props, pageSavedMovie}) {
   }
 
   function handleCheckboxChange() { // нажали на чекбокс
-    if(isFiltered) {
+    if(isFiltered && !pageSavedMovie) {
       setCheckbox(!checkbox);
       handleCheckboxFiltered(!checkbox)
       localStorage.setItem('checkbox', JSON.stringify(!checkbox));
-    } else if(pageSavedMovie) {
+      console.log("")
+    } else {
       setCheckbox(!checkbox);
       handleCheckboxFiltered(!checkbox)
-      localStorage.setItem('checkbox', JSON.stringify(!checkbox));
     }
   }
 

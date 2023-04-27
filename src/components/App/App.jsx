@@ -19,37 +19,37 @@ import {CurrentUserContext} from "../../contexts/CurrentUserContext";
 import Preloader from "../Preloader/Preloader";
 
 function App() {
+  //общее
   const [isOpenBurgerPopup, setisOpenBurgerPopup] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [pageLoading, setPageloading] = useState(true);
   const [loggedIn, isLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
-  const [movies, setMovies] = useState([]);
   const [isOpenInfoTooltip, setOpenInfoTooltip] = useState(false);
   const [updateUserError, setUpdateUserError] = useState("");
-
-  const [errorSearchFormSpan, setErrorSearchFormSpan] = useState(""); //спан при поиске фильмов
-  const [errorSearchSavedMoviesPage,setErrorSearchSavedMoviesPage] = useState("") //спан при поиске сохраненныъ фильмов
-
-  const [errorMovies, setErrorMovies] = useState("");
-  const [errorSaveMovies, setErrorSaveMovies] = useState(false);
-  const [formValueSave, setFormValueSave] = useState("");
- const [checkbox, setCheckbox] = useState(false);
-  const [checkboxSave, setCheckboxSave] = useState(false)
-  const [savedMovies, setSavedMovies] = useState([]);
-  const [savePageClick, setSavePageClick] = useState(false)
-  const [savedFilterMovies, setSavedFilterMovies] = useState([]);
+  const [errorMovies, setErrorMovies] = useState(""); 
+  const [registerResponse, isregisterResponse] = useState({status: false, text: "",});
+  //movies
+  const [movies, setMovies] = useState([]);
+  const [errorSearchFormSpan, setErrorSearchFormSpan] = useState(""); //ошибка при поиске фильмов
+  const [checkbox, setCheckbox] = useState(false);
   const [activeShowAllMovies, setActiveShowAllMovies] = useState(false); //когда видна кнопка все фильмы
   const [isFiltered, setIsFiltered] = useState(false); //происходила ли фильтрация исходного массива
-  const [isSaveMoviesFiltered, setIsSaveMoviesFiltered] = useState(false);
   const [filteredAllMovies, setFilteredAllMovies] = useState([]); //отфильтрованный массив
-  const [registerResponse, isregisterResponse] = useState({status: false, text: "",});
   const [formValue, setFormValue] = useState("")
+//SavedMovies
+  const [checkboxSave, setCheckboxSave] = useState(false)
+  const [savedMovies, setSavedMovies] = useState([]);
+  const [formValueSave, setFormValueSave] = useState("");
+  const [errorSearchSavedMoviesPage, setErrorSearchSavedMoviesPage] = useState("") //ошибка при поиске фильмов
+  const [filteredMovies, setFilteredMovies] = useState([]); 
+  const [value, setValue] = useState("")
+  const [checkboxSavePage, setCheckboxSavePage]= useState(false)
 
   const navigate = useNavigate();
   const token = localStorage.getItem("jwt");
 
-  useEffect(() => {
+  useEffect(() => { //информация юзера
     if (loggedIn) {
       setPageloading(true);
       api
@@ -66,7 +66,7 @@ function App() {
     }
   }, [loggedIn]);
 
-  useEffect(() => {
+  useEffect(() => { // при перезагрузке
     if (token) {
       setPageloading(true);
       api
@@ -84,7 +84,7 @@ function App() {
     }
   }, [token]);
 
-  useEffect(() => {
+  useEffect(() => { //все фильмы из api
     setIsLoading(true);
     if (loggedIn) {
       apiMovies
@@ -100,14 +100,13 @@ function App() {
     }
   }, [loggedIn]);
 
-  useEffect(() => {
+  useEffect(() => { //сохраненные фильмы из api
     if (loggedIn) {
       setIsLoading(true);
       api
         .getSavedMovies()
         .then((res) => {
           setSavedMovies(res);
-          setSavedFilterMovies(res)
         })
         .catch((err) => {
           console.log(err);
@@ -117,7 +116,7 @@ function App() {
     }
   }, [loggedIn]);
 
-  useEffect(() => {
+  useEffect(() => { //закрытие попапов
     function handleEscape(evt) {
       if (evt.key === "Escape") {
         closeAllPopups();
@@ -135,8 +134,6 @@ function App() {
       document.removeEventListener("mousedown", handleClosePopups);
     };
   }, []);
-
-
 
 
   function handleRegisterClick(password, email, name) {
@@ -221,6 +218,10 @@ function App() {
     setFilteredAllMovies({});
     setIsFiltered(false);
     setFormValue("")
+    setValue("")
+    setFormValueSave("")
+    setCheckboxSavePage(false)
+    setCheckboxSave(false)
   }
 
   function handleOpenBurgerPopup() {
@@ -237,7 +238,6 @@ function App() {
       .saveMovies(movie)
       .then((movie) => {
         setSavedMovies(savedMovies.concat(movie));
-        setSavedFilterMovies(savedMovies.concat(movie));
       })
       .catch((err) => {
         console.log(err);
@@ -249,34 +249,11 @@ function App() {
       .deleteMovies(movie._id)
       .then(() => {
         setSavedMovies((i) => i.filter((m) => m._id !== movie._id));
-        setSavedFilterMovies((i) => i.filter((m) => m._id !== movie._id));
       })
       .catch((err) => {
         console.log(err);
       });
   }
-
-  //   // localStorage.setItem("filterMoviesSavePage", JSON.stringify(filteredMovies));
-  //   // localStorage.setItem("checkboxSavePage", JSON.stringify(checkbox));
-  //   // localStorage.setItem("inputMovieNameSavePage", inputSearch);
-
-  function handleFilterSaveMovies(inputSearch, checkbox) { //при нажатии на кнопку найти Сохраненные фильмы
-   setIsSaveMoviesFiltered(true);
-    let filteredSaveMovies = savedMovies.filter((item) =>
-      item.nameRU.toLowerCase().includes(inputSearch.toLowerCase())
-    );
-    let sortFilteredMovies = filteredSaveMovies.filter(
-      (movie) => movie.duration <= 40
-    );
-    localStorage.setItem('inputSearch', JSON.stringify(inputSearch));
-
-    if(checkbox) {
-      filteredSaveMovies = sortFilteredMovies;
-    }
-    setSavedFilterMovies(filteredSaveMovies);
-    localStorage.setItem('filteredSaveMovies', JSON.stringify(filteredSaveMovies));
-  }
-
 
   function handleFilteredMovies(formValue, checkbox) { //при нажатии на кнопку найти
     setActiveShowAllMovies(true)
@@ -291,6 +268,20 @@ function App() {
     }
     setFilteredAllMovies(filteredMovies);
     localStorage.setItem('filteredMovies', JSON.stringify(filteredMovies));
+  }
+ 
+  function handleShowAllMovies() {
+    setFilteredAllMovies(movies)
+    localStorage.removeItem("filteredMovies")
+    localStorage.removeItem("formValue")
+    localStorage.removeItem("chechbox")
+    localStorage.setItem('allMovies', JSON.stringify(movies));
+    window.scrollTo(0, 0);
+    setIsFiltered(true);
+    setFormValue("")
+    setErrorSearchFormSpan("")
+    setActiveShowAllMovies(false);
+    setCheckbox(false);
   }
 
   function handleCheckboxFiltered(checkbox) {
@@ -328,20 +319,6 @@ function App() {
 
   }
 
-  function handleShowAllMovies() {
-    setFilteredAllMovies(movies)
-    localStorage.removeItem("filteredMovies")
-    localStorage.removeItem("formValue")
-    localStorage.removeItem("chechbox")
-    localStorage.setItem('allMovies', JSON.stringify(movies));
-    window.scrollTo(0, 0);
-    setIsFiltered(true);
-    setFormValue("")
-    setErrorSearchFormSpan("")
-    setActiveShowAllMovies(false);
-    setCheckbox(false);
-  }
-
   useEffect(()=> {
     if(localStorage.getItem('filteredMovies')) {
       setIsFiltered(true)
@@ -356,21 +333,25 @@ function App() {
     }
   },[])
 
-  // useEffect(()=> {
-  //   // if(localStorage.getItem('filteredSaveMovies')) {
-  //   //   const filteredMovies = JSON.parse(localStorage.getItem('filteredSaveMovies'));
-  //   //   setSavedFilterMovies(filteredMovies)
-  //   // } else {
-  //   //   setSavedFilterMovies(savedMovies)
-  //   // }
-  //   if(isSaveMoviesFiltered) {
-  //     const filteredMovies = JSON.parse(localStorage.getItem('filteredSaveMovies'));
-  //     setSavedFilterMovies(filteredMovies)
-  //   } else {
-  //     setSavedFilterMovies(savedMovies)
-  //   }
-  // },[isSaveMoviesFiltered, savedMovies])
-  // //console.log(savedFilterMovies)
+  //сохраненные фильмы
+  function handleFilterSaveMovies(inputSearch) {
+    setValue(inputSearch);
+  }
+
+  function handleCheckboxFilteredSaveMovies(checkbox) {
+    setCheckboxSavePage(checkbox)
+  }
+
+  useEffect(() => {
+    let filteredMovies = savedMovies.filter((item) =>
+    item.nameRU.toLowerCase().includes(value.toLowerCase()));
+    if(checkboxSavePage) {
+      filteredMovies = filteredMovies.filter(
+        (movie) => movie.duration <= 40);
+    } 
+    setFilteredMovies(filteredMovies)
+  }, [savedMovies, value, checkboxSavePage]);
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -406,7 +387,6 @@ function App() {
                     handleCheckboxFiltered={handleCheckboxFiltered}
                     checkbox={checkbox}
                     setCheckbox={setCheckbox}
-
                     formValue={formValue} 
                     setFormValue={setFormValue}
                   />
@@ -420,27 +400,16 @@ function App() {
                     isLoggedIn={loggedIn}
                     onOpenBurgerPopup={handleOpenBurgerPopup}
                     isLoading={isLoading}
-                    
-                    handleSaveMovie={handleSaveMovie}
-
-                    setFormValue={setFormValueSave}
-                    formValue={formValueSave}
-                    isFiltered={isSaveMoviesFiltered}
-                    checkbox={checkboxSave}
-                    setCheckbox={setCheckboxSave}
-                    
-                    errorSaveMovies={errorSaveMovies}
-
                     errorSpan={errorSearchSavedMoviesPage}
                     setErrorSpan={setErrorSearchSavedMoviesPage}
-
-                    handleFilteredMovies={handleFilterSaveMovies}
-                    //setActiveShowAllMovies={setActiveShowAllMovies}
-                    savedFilterMovies={savedFilterMovies}
-                    movies={savedFilterMovies}
-                    
-                    
-                    //handleFilteredMovies={handleFilteredMovies}
+                    handleSaveMovie={handleSaveMovie}
+                    formValue={formValueSave}
+                    setFormValue={setFormValueSave}
+                    checkbox={checkboxSave}
+                    setCheckbox={setCheckboxSave}
+                    movies={filteredMovies}
+                    handleFilteredMovies={handleFilterSaveMovies} 
+                    handleCheckboxFiltered={handleCheckboxFilteredSaveMovies}
                   />
                 }
               />
