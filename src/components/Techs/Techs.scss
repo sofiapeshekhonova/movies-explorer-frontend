@@ -18,7 +18,7 @@
   line-height: 58px;
   letter-spacing: -0.04em;
   @media screen and (max-width: 768px) {
-    font-size: calc(30px + 20 *(100vw / 768));
+    font-size: calc(30px + 20 * (100vw / 768));
     margin-top: 80px;
   }
   @media screen and (max-width: 495px) {
@@ -79,7 +79,6 @@
   padding: 21px 0 22px 0;
   max-width: 90px;
   width: 100%;
-  // margin-right: 10px;
   text-align: center;
   font-weight: 400;
   font-size: 14px;

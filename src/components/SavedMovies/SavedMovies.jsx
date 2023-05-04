@@ -4,15 +4,19 @@ import "./SavedMovies.scss";
 import Layout from "../Layout/Layout";
 import Preloader from "../Preloader/Preloader";
 
-function SavedMovies({onOpenBurgerPopup, isLoading}) {
+function SavedMovies(props) {
+  const {onOpenBurgerPopup, isLoading} = props;
 
   return (
-    <Layout className="header" title="Main" isLoggedIn card onOpenBurgerPopup={onOpenBurgerPopup} page>
+    <Layout className="header" isLoggedIn card onOpenBurgerPopup={onOpenBurgerPopup} page>
       <main className="saved-movies">
-        <SearchForm />
-        {isLoading ? <Preloader /> : 
-          <MoviesCardList className="movies-card__dislike" alt="кнопка: удалить фильм"/>}
-        </main>
+        <SearchForm props={props} pageSavedMovie={true} />
+        {isLoading ? (
+          <Preloader />
+        ) : (
+          <MoviesCardList props={props} pageSavedMovie={true} />
+        )}
+      </main>
     </Layout>
   );
 }

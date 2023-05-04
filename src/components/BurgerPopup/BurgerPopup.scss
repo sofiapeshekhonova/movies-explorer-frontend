@@ -6,7 +6,7 @@
   .burger-popup {
     display: flex;
     position: fixed;
-    background: rgba(0,0,0, 0.5);
+    background: rgba(0, 0, 0, 0.5);
     width: 100%;
     height: 100%;
     top: 0;
@@ -15,7 +15,7 @@
     justify-content: center;
     visibility: hidden;
     opacity: 0;
-    transition: visibility .30s, opacity ease .30s;
+    transition: visibility 0.3s, opacity ease 0.3s;
   }
 
   .burger-popup_active {
@@ -24,7 +24,7 @@
     align-items: center;
     justify-content: center;
   }
-  
+
   .burger-popup__container {
     background-color: var(--milk);
     transition: all 0.3s ease 0s;
@@ -36,7 +36,7 @@
     flex-direction: column;
     align-items: flex-end;
   }
-  
+
   .burger-popup__button {
     background-color: transparent;
     border: none;

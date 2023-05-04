@@ -1,6 +1,6 @@
 .footer {
   padding: 64px 70px 20px 70px;
-  background-color: #F8F8F8;
+  background-color: #f8f8f8;
   @media screen and (max-width: 768px) {
     padding: 79px 30px 20px 30px;
     background-color: var(--milk);
@@ -42,9 +42,9 @@
     line-height: 15px;
     display: grid;
     justify-content: center;
-    grid-template-areas: 'list'
-                          'year';
-
+    grid-template-areas:
+      "list"
+      "year";
   }
 }
 

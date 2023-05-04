@@ -1,10 +1,15 @@
 import "./LoginAndRegisterForm.scss";
 
-function LoginAndRegisterForm({children, buttonText, className, disabled, onSubmit}) {
+function LoginAndRegisterForm({ children, buttonText, className, disabled, onSubmit, }) {
   return (
-    <form className="form" noValidate>
+    <form className="form" noValidate onSubmit={onSubmit}>
       {children}
-      <button className={className} type="submit" aria-label={buttonText} disabled={disabled} onClick={onSubmit}>
+      <button
+        className={className}
+        type="submit"
+        aria-label={buttonText}
+        disabled={disabled}
+      >
         {buttonText}
       </button>
     </form>

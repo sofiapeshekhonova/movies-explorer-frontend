@@ -19,7 +19,7 @@ function BurgerPopup({isOpen, onClose}) {
         <button className="burger-popup__button" onClick={onClose}>
           <img src={esc} alt="кнопка закрытия меню" />
         </button>
-        <NavTab isOpen={isOpen} onClose={onClose}/>
+        <NavTab isOpen={isOpen} onClose={onClose} />
       </div>
     </section>
   );

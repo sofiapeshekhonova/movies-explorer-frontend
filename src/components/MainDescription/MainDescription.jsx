@@ -1,7 +1,6 @@
 import "./MainDescription.scss";
 
 function MainDescription({title}) {
-
   return (
     <div className="main-description">
       <h2 className="main-description__title">{title}</h2>
