@@ -47,8 +47,7 @@ function SearchForm({props, pageSavedMovie}) {
       setCheckbox(!checkbox);
       handleCheckboxFiltered(!checkbox)
       localStorage.setItem('checkbox', JSON.stringify(!checkbox));
-      console.log("")
-    } else {
+    } else if(pageSavedMovie){
       setCheckbox(!checkbox);
       handleCheckboxFiltered(!checkbox)
     }
@@ -89,18 +88,13 @@ function SearchForm({props, pageSavedMovie}) {
         </div>
         <span className="form__text-error">{errorSpan}</span>
       </form>
-      <label className="search-form__checkbox">
+      <label className="search-form__checkbox" onChange={handleCheckboxChange} >
         <input
           className={switcherClassName}
           type="checkbox"
           checked={checkbox}
-          onChange={handleCheckboxChange}
         />
-        <button
-          className={buttonCheckboxClassName}
-          type="button"
-          aria-label="поиск по короткометражкам"
-        />
+        <div className={buttonCheckboxClassName}/>
         <p className="search-form__checkbox-name">Короткометражки</p>
       </label>
     </section>

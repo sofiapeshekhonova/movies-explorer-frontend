@@ -1,4 +1,4 @@
-import {Routes, Route, useNavigate} from "react-router-dom";
+import {Routes, Route, useNavigate, Navigate} from "react-router-dom";
 import Main from "../Main/Main";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import "./App.scss";
@@ -360,8 +360,8 @@ function App() {
         ) : (
           <>
             <Routes>
-              <Route path={AppRoute.Register} element={<Register register={handleRegisterClick} />} />
-              <Route path={AppRoute.Login} element={<Login login={handleLoginClick} />} />
+              <Route path={AppRoute.Register} element={loggedIn ? <Navigate to="/"/> :<Register register={handleRegisterClick} />} />
+              <Route path={AppRoute.Login} element={loggedIn ? <Navigate to="/"/> : <Login login={handleLoginClick} />} />
               <Route path={AppRoute.Main}
                 element={<Main isLoggedIn={loggedIn} onOpenBurgerPopup={handleOpenBurgerPopup} />}
               />

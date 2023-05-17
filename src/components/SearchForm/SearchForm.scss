@@ -78,6 +78,7 @@
   left: 2px;
   transition: all .3s ease;
   z-index: 1;
+  cursor: pointer;
 }
 
 .search-form__checkbox-button_active {
@@ -103,7 +104,6 @@
 
 .search-form__checkbox-switcher::after {
   background-color: #EBEBEB;
-  ;
   border-radius: 10px;
   width: 36px;
   height: 20px;

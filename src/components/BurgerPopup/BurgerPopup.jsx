@@ -15,7 +15,7 @@ function BurgerPopup({isOpen, onClose}) {
 
   return (
     <section className={stylePopup}>
-      <div className="burger-popup__container">
+      <div className={isOpen ? 'burger-popup__container_active burger-popup__container': 'burger-popup__container'}>
         <button className="burger-popup__button" onClick={onClose}>
           <img src={esc} alt="кнопка закрытия меню" />
         </button>
