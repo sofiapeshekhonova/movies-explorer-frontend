@@ -5,9 +5,8 @@
 
 В рамках диплома мы загружали бэкенд и фронтенд на виртуальную машину Яндекс облако. Однако сейчас вы можете ознакомиться с проектом скачав его к себе на компьютер
 
-
 <div align="left">
-    <img src="https://github.com/sofiapeshekhonova/react-mesto-auth/blob/main/src/images/register.gif?raw=true" width="500" alt="запись экрана проекта">
+    <img src="https://github.com/sofiapeshekhonova/movies-explorer-frontend/blob/main/src/images/register.gif?raw=true" width="700" alt="запись экрана проекта">
 </div>
 
 ***
