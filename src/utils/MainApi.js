@@ -81,6 +81,5 @@ class Api {
 }
 
 export const api = new Api({
-  baseUrl: 'https://api.movies.peshekhonova.nomoredomains.monster'
- //baseUrl: 'http://localhost:3000',
+ baseUrl: 'http://localhost:3000',
 });
